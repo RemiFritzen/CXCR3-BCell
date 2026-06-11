@@ -1,0 +1,7 @@
+manual_bcell_subtype,Core memory B cell,Core naive B cell,ISG+ naive B cell
+Activated/IFN B,0,3611,0
+GC-like B,0,1554,0
+Memory B,1,22470,2
+Naive B,0,3404,0
+Other B,0,4615,0
+Plasmablast/ASC,0,21496,2

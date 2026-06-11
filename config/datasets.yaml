@@ -1,0 +1,230 @@
+# -*- coding: utf-8 -*-
+# datasets.yaml
+# Dataset registry for the B-cell zinc / CXCR3 pipeline.
+# Structure:
+#   - datasets.<NAME>.patients  -> loop over per-patient .h5ad files
+#   - datasets.<NAME> (no patients) -> load a single global .h5ad
+# Paths are reconstructed as:  data/processed/<DATASET_NAME>/<PATIENT_KEY>.h5ad
+# No explicit path field is needed unless the file deviates from this convention.
+
+datasets:
+
+  # --------------------------------------------------------------------------
+  # GSE133028  -- Wilson Lab UCSF, single-cell B cells (CSF + PB), MS cohort
+  # Patient-based: each sample is a separate .h5ad under data/processed/GSE133028/
+  # --------------------------------------------------------------------------
+  GSE133028:
+    condition_col: condition
+    patient_col: patient
+    tissue_col: tissue
+    celltype_col: celltype
+    keep_conditions: [MS, HC, CIS]
+    patients:
+      CSF_2:
+        condition: HC
+      CSF_3:
+        condition: HC
+      CSF_6:
+        condition: MS
+      CSF_7:
+        condition: MS
+      CSF_8:
+        condition: MS
+      CSF_9:
+        condition: MS
+      CSF_10:
+        condition: MS
+      CSF_16:
+        condition: MS
+      # CSF_18:
+      #   condition: MS -treated
+      # CSF_21:
+      #   condition: UVeitis
+      CSF_22:
+        condition: CIS
+      CSF_24:
+        condition: MS
+      CSF_25:
+        condition: MS
+      CSF_27:
+        condition: MS
+      CSF_28:
+        condition: MS
+      CSF_29:
+        condition: MS
+      CSF_31:
+        condition: CIS
+      CSF_32:
+        condition: HC
+      PB_2:
+        condition: HC
+      PB_3:
+        condition: HC
+      PB_6:
+        condition: MS
+      PB_7:
+        condition: MS
+      PB_8:
+        condition: MS
+      PB_9:
+        condition: MS
+      PB_10:
+        condition: MS
+      PB_16:
+        condition: MS
+      # PB_18:
+      #   condition: MS-treated
+      # PB_21:
+      #   condition: Uveitis
+      PB_22:
+        condition: CIS
+      PB_24:
+        condition: MS
+      PB_25:
+        condition: MS
+      PB_27:
+        condition: MS
+      PB_28:
+        condition: MS
+      PB_29:
+        condition: MS
+      PB_31:
+        condition: CIS
+      PB_32:
+        condition: HC
+
+  # --------------------------------------------------------------------------
+  # GSE138266  -- Global .h5ad; patient annotations already embedded in .obs
+  # --------------------------------------------------------------------------
+  GSE138266:
+    condition_col: condition
+    patient_col: donor
+    tissue_col: sample
+    celltype_col: celltype
+    keep_conditions: [MS, HC]
+    patients:
+        MS19270_CSF:
+          condition: MS
+        MS19270_PB:
+          condition: MS
+        MS49131_CSF:
+          condition: MS
+        MS49131_PB:
+          condition: MS
+        MS58637_CSF:
+          condition: MS
+        MS60249_CSF:
+          condition: MS
+        MS60249_PB:
+          condition: MS
+        MS71658_CSF:
+          condition: MS
+        MS71658_PB:
+          condition: MS
+        MS74594_CSF:
+          condition: MS
+        MS74594_PB:
+          condition: MS
+        PST45044_CSF:
+          condition: HC
+        PST45044_PB:
+          condition: HC
+        PST83775_CSF:
+          condition: HC
+        PST83775_PB:
+          condition: HC
+        PST95809_PB:
+          condition: HC
+        PTC32190_CSF:
+          condition: HC
+        PTC32190_PB:
+          condition: HC
+        PTC41540_CSF:
+          condition: HC
+        PTC41540_PB:
+          condition: HC
+        PTC85037_CSF:
+          condition: HC
+        PTC85037_PB:
+          condition: HC
+
+  # # --------------------------------------------------------------------------
+  # # GSE239626  -- CITE-seq global .h5ad; no per-patient files patients 
+  # # --------------------------------------------------------------------------
+  # GSE239626:
+  #   h5ad: data/processed/GSE239626/GSE239626_processed.h5ad
+  #   condition_col: condition
+  #   patient_col: patient
+  #   tissue_col: tissue
+  #   celltype_col: celltype
+  #   keep_conditions: [MS]
+
+
+# --------------------------------------------------------------------------
+# Analysis markers
+# --------------------------------------------------------------------------
+markers:
+  cxcr3: CXCR3
+  zinc_transporters:
+    - SLC39A1
+    - SLC39A4
+    - SLC39A6
+    - SLC39A7
+    - SLC39A9
+    - SLC39A10
+    - SLC39A11
+    - SLC39A14    # expressed but sparse; mainly CSF-biased
+    - SLC30A1     # expressed but sparse
+    - SLC30A9
+  metallothioneins:
+    - MT1E
+    - MT1F
+    - MT1X
+    - MT2A
+  # Genes to exclude from older panels because they are essentially off
+  # in CXCR3+ PB and CSF B cells in the merged dataset:
+  exclude_artefacts:
+    - MT1A
+    - MT1G
+    - MT1H
+    - MT1M
+    - SLC30A3   # ZnT3 - NEURONAL ONLY, not B cells
+    - SLC30A2   # ZnT2 - mammary/intestinal
+    - SLC30A8   # ZnT8 - pancreatic beta cells only
+  bcell_markers:
+    - CD19
+    - MS4A1
+    - CD79A
+    - CD79B
+    - CD74
+    - IGHM
+    - IGHD
+    - IGKC
+    - IGLC2
+  nonb_markers:
+    # T / NK
+    - CD3D
+    - CD3E
+    - TRAC
+    - TRBC1
+    - TRBC2
+    - NKG7
+    - GNLY
+    - PRF1
+    # Mono / myeloid
+    - LST1
+    - LILRB1
+    - LILRB2
+    - S100A8
+    - S100A9
+    - LYZ
+    - FCGR3A
+    - C1QA
+    - C1QB
+    - C1QC
+    # Erythroid / megakaryocyte
+    - HBB
+    - HBA1
+    - HBA2
+    - PF4
+    - PPBP
