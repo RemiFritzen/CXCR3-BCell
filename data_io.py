@@ -222,7 +222,7 @@ def _standardise_obs(
 ) -> ad.AnnData:
     """
     Guarantee a common set of .obs columns across all datasets:
-        dataset, patient, condition, tissue
+        dataset, patient, condition, tissue, sex
     """
     adata.obs["dataset"] = dataset_name
 
@@ -243,6 +243,14 @@ def _standardise_obs(
         adata.obs["condition"] = adata.obs[condition_col].astype(str)
     else:
         adata.obs["condition"] = "unknown"
+
+    # Sex is patient-level metadata from datasets.yaml only (no source .h5ad
+    # column fallback -- neither dataset embeds sex in the raw object), added
+    # for the sex-stratified sensitivity analysis (reviewer point #11).
+    if patient_meta and "sex" in patient_meta:
+        adata.obs["sex"] = patient_meta["sex"]
+    else:
+        adata.obs["sex"] = "unknown"
 
     if patient_key is not None:
         adata.obs["tissue"] = _tissue_from_key(patient_key)
@@ -364,7 +372,7 @@ def load_all_datasets(
 ) -> ad.AnnData:
     """
     Loop over all datasets in cfg, load each, and return one merged AnnData.
-    Stable .obs columns: dataset, patient, condition, tissue, cxcr3_group.
+    Stable .obs columns: dataset, patient, condition, tissue, sex, cxcr3_group.
     """
     datasets_cfg = cfg.get("datasets", {})
     adatas: list[ad.AnnData] = []
