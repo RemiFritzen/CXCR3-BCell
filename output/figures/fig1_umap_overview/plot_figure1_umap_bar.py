@@ -6,7 +6,7 @@ plot_figure1_umap_bar.py  (revised)
 ------------------------------------
 Create Figure 1 panels:
   A – UMAP coloured by dataset
-  B – UMAP coloured by condition (HC / MS / CIS)
+  B – UMAP coloured by condition (HC / MS)
   C – UMAP coloured by tissue × CXCR3 group
   D – bar + dot chart: % CXCR3+ B cells per patient × group
 
@@ -15,7 +15,7 @@ Changes vs original:
   2.  panel letters (A–D) on every individual PDF and on the combined figure
   3.  UMAP axis labels added (UMAP 1 / UMAP 2)
   4.  Panel B – equal alpha=0.6 for all conditions; draw order controlled via
-      Categorical category ordering (MS underneath, HC / CIS on top)
+      Categorical category ordering (MS underneath, HC on top)
       → single sc.pl.umap() call, no legend duplication risk
   5.  Panel C – CXCR3- categories listed first in Categorical so their points
       are drawn first (background); CXCR3+ drawn last (foreground / on top)
@@ -61,7 +61,6 @@ _RNG = np.random.default_rng(42)
 COND_PALETTE = {
     "HC":  "#1f77b4",   # blue
     "MS":  "#ff7f0e",   # orange
-    "CIS": "#d62728",   # red
 }
 
 PALETTE4 = {
@@ -73,6 +72,23 @@ PALETTE4 = {
 
 BAR_COLORS = ["#4C78A8", "#72B7B2", "#E45756", "#F58518"]
 ORDER_BAR  = ["HC-PB", "HC-CSF", "MS-PB", "MS-CSF"]
+
+# Distinct colors/markers for patient-level dots, coded by dataset of origin
+# -- lets you visually check whether a bar's mean is being driven by
+# patients from one study rather than a consistent pattern across both
+# (same question the formal dataset-confounding check in fig2.py addresses
+# statistically for the composite signature). Built dynamically so it's not
+# hardcoded to exactly two datasets.
+_DATASET_COLOR_CYCLE = ["#4C78A8", "#E45756", "#54A24B", "#F58518", "#B279A2"]
+_DATASET_MARKER_CYCLE = ["o", "^", "s", "D", "v"]
+
+
+def _build_dataset_palette(datasets: list[str]) -> tuple[dict, dict]:
+    """Assign a stable color + marker to each dataset, in sorted order."""
+    datasets = sorted(set(datasets))
+    colors = {ds: _DATASET_COLOR_CYCLE[i % len(_DATASET_COLOR_CYCLE)] for i, ds in enumerate(datasets)}
+    markers = {ds: _DATASET_MARKER_CYCLE[i % len(_DATASET_MARKER_CYCLE)] for i, ds in enumerate(datasets)}
+    return colors, markers
 
 
 # ---------------------------------------------------------------------------
@@ -136,10 +152,25 @@ def _draw_bar_panel(
     bar_df: pd.DataFrame,
     order: list[str],
     pvals: dict[str, float],
+    color_dots_by_dataset: bool = True,
+    legend_outside: bool = True,
 ) -> None:
     """
     Core bar + dot logic shared by save_panel_bar() and _save_combined_figure().
     Uses a fresh fixed-seed RNG so jitter is identical in both outputs.
+
+    color_dots_by_dataset: if True (default) and patient_df has a 'dataset'
+    column, patient-level dots are colored/marker-coded by dataset of origin
+    instead of uniform black. This makes it visually checkable whether a
+    bar's mean is being driven by one study rather than reflecting a
+    consistent pattern across datasets -- the same question addressed
+    statistically for the zinc signature in fig2.py's dataset confounding
+    check.
+
+    legend_outside: standalone panel PDFs have room for the dataset legend
+    outside the axes (loc='upper left', bbox_to_anchor); the combined 2x2
+    figure does not -- pass False there to place it inside the axes instead
+    and avoid clipping.
     """
     rng = np.random.default_rng(42)
 
@@ -160,16 +191,46 @@ def _draw_bar_panel(
             capsize=5, alpha=0.9, width=0.65,
         )
 
-    # Patient-level dots with fixed-seed jitter
+    # Patient-level dots with fixed-seed jitter, colored by dataset if requested
+    use_dataset_color = color_dots_by_dataset and "dataset" in patient_df.columns
+    if use_dataset_color:
+        ds_colors, ds_markers = _build_dataset_palette(patient_df["dataset"].unique().tolist())
+
+    plotted_datasets = []
     for i, grp in enumerate(order):
-        vals = patient_df.loc[patient_df["group4"] == grp, "pct_cxcr3_pos"].values
-        if not len(vals):
+        sub = patient_df[patient_df["group4"] == grp]
+        if not len(sub):
             continue
-        jitter = rng.normal(0, 0.06, size=len(vals))
-        ax.scatter(
-            np.full(len(vals), i) + jitter, vals,
-            color="k", s=25, alpha=0.8, zorder=10,
-        )
+        jitter = rng.normal(0, 0.06, size=len(sub))
+        if use_dataset_color:
+            for ds, ds_sub in sub.groupby("dataset"):
+                ds_jitter = rng.normal(0, 0.06, size=len(ds_sub))
+                ax.scatter(
+                    np.full(len(ds_sub), i) + ds_jitter, ds_sub["pct_cxcr3_pos"].values,
+                    color=ds_colors[ds], marker=ds_markers[ds],
+                    edgecolors="black", linewidths=0.4,
+                    s=30, alpha=0.85, zorder=10,
+                    label=ds if ds not in plotted_datasets else None,
+                )
+                if ds not in plotted_datasets:
+                    plotted_datasets.append(ds)
+        else:
+            ax.scatter(
+                np.full(len(sub), i) + jitter, sub["pct_cxcr3_pos"].values,
+                color="k", s=25, alpha=0.8, zorder=10,
+            )
+
+    if use_dataset_color and plotted_datasets:
+        if legend_outside:
+            ax.legend(
+                title="Dataset", frameon=False, fontsize=8, title_fontsize=8,
+                loc="upper left", bbox_to_anchor=(1.01, 1.0),
+            )
+        else:
+            ax.legend(
+                title="Dataset", frameon=False, fontsize=7, title_fontsize=7,
+                loc="lower right",
+            )
 
     # x-axis tick labels: group name + n=  (FIX: n= added)
     n_labels = []
@@ -219,13 +280,12 @@ def save_panel_condition_umap(adata: sc.AnnData, outpath) -> None:
     Draw order is controlled by the Categorical category order:
       MS listed first  → drawn first (background layer)
       HC listed second → drawn on top of MS
-      CIS listed last  → drawn on top of HC / MS
-    This means HC and CIS (smaller groups) remain visible without
+    This means HC (the smaller group) remains visible without
     artificially fading MS.
     """
     adata = adata.copy()
     # Category order = draw order (scanpy iterates categories in order)
-    draw_order = ["MS", "HC", "CIS"]
+    draw_order = ["MS", "HC"]
     adata.obs["condition"] = pd.Categorical(
         adata.obs["condition"].astype(str),
         categories=draw_order,
@@ -309,9 +369,9 @@ def save_panel_bar(
     pvals: dict[str, float],
     outpath,
 ) -> None:
-    """Panel D – bar + dot chart (with significance brackets)."""
-    fig, ax = plt.subplots(figsize=(6, 5))
-    _draw_bar_panel(ax, patient_df, bar_df, order, pvals)
+    """Panel D – bar + dot chart (with significance brackets), dots colored by dataset."""
+    fig, ax = plt.subplots(figsize=(7, 5))
+    _draw_bar_panel(ax, patient_df, bar_df, order, pvals, legend_outside=True)
     _panel_letter(ax, "E")
     fig.savefig(outpath, bbox_inches="tight")
     plt.close(fig)
@@ -342,7 +402,7 @@ def _save_combined_figure(
     # ── B ────────────────────────────────────────────────────────────────────
     ax2   = fig.add_subplot(gs[0, 1])
     adata_b = adata.copy()
-    draw_order_b = ["MS", "HC", "CIS"]
+    draw_order_b = ["MS", "HC"]
     adata_b.obs["condition"] = pd.Categorical(
         adata_b.obs["condition"].astype(str),
         categories=draw_order_b, ordered=False,
@@ -375,7 +435,7 @@ def _save_combined_figure(
 
     # ── D ────────────────────────────────────────────────────────────────────
     ax4 = fig.add_subplot(gs[1, 1])
-    _draw_bar_panel(ax4, patient_df, bar_df, order, pvals)
+    _draw_bar_panel(ax4, patient_df, bar_df, order, pvals, legend_outside=False)
     _panel_letter(ax4, "E")
 
     fig.savefig(outpath, dpi=300, bbox_inches="tight")
@@ -386,6 +446,76 @@ def _save_combined_figure(
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
+def check_bar_dataset_confounding(
+    patient_df: pd.DataFrame,
+    tissue: str,
+    min_patients_per_group: int = 3,
+) -> dict:
+    """
+    Check whether the HC-vs-MS %CXCR3+ comparison (the significance bracket
+    in Panel D) is being driven by, or differs meaningfully between, dataset
+    of origin -- same rationale as fig2.py's check_dataset_confounding for
+    the zinc signature (reviewer concern #4). Two checks:
+
+    1. STRATIFIED: rerun the same HC-vs-MS Mann-Whitney test WITHIN each
+       dataset separately.
+    2. FORMAL INTERACTION TEST: OLS on pct_cxcr3_pos ~ C(condition) *
+       C(dataset) within this tissue; a significant interaction term means
+       the HC-vs-MS difference genuinely differs by dataset.
+    """
+    import statsmodels.formula.api as smf
+
+    tdf = patient_df[
+        (patient_df["tissue"] == tissue) & patient_df["condition"].isin(["HC", "MS"])
+    ].copy()
+
+    print(f"\n  === Dataset confounding check: {tissue} %CXCR3+ (HC vs MS) ===")
+
+    per_dataset_results = []
+    for ds in sorted(tdf["dataset"].dropna().unique()):
+        ds_df = tdf[tdf["dataset"] == ds]
+        hc = ds_df.loc[ds_df["condition"] == "HC", "pct_cxcr3_pos"]
+        ms = ds_df.loc[ds_df["condition"] == "MS", "pct_cxcr3_pos"]
+        if len(hc) < min_patients_per_group or len(ms) < min_patients_per_group:
+            print(f"    [{ds}] n={len(hc)} HC, {len(ms)} MS -- too few patients to test "
+                  f"(< {min_patients_per_group}/group); skipping.")
+            per_dataset_results.append({"dataset": ds, "n_HC": len(hc), "n_MS": len(ms),
+                                         "median_diff": np.nan, "pvalue": np.nan})
+            continue
+        stat, p = mannwhitneyu(hc, ms, alternative="two-sided")
+        median_diff = ms.median() - hc.median()
+        print(f"    [{ds}] n={len(hc)} HC, {len(ms)} MS: median(MS-HC)={median_diff:+.2f} pct-pts, "
+              f"Mann-Whitney p={p:.3g}")
+        per_dataset_results.append({"dataset": ds, "n_HC": len(hc), "n_MS": len(ms),
+                                     "median_diff": median_diff, "pvalue": p})
+
+    per_dataset_df = pd.DataFrame(per_dataset_results)
+    testable = per_dataset_df.dropna(subset=["pvalue"])
+    directions_agree = testable["median_diff"].apply(np.sign).nunique() <= 1 if len(testable) > 1 else None
+    if directions_agree is False:
+        print(f"    [WARNING] Direction of the HC-vs-MS %CXCR3+ difference is INCONSISTENT "
+              f"across datasets -- investigate before reporting the pooled bracket p-value as "
+              f"dataset-independent.")
+    elif directions_agree is True:
+        print(f"    Direction is consistent across all testable datasets.")
+
+    interaction_p = np.nan
+    if tdf["dataset"].nunique() >= 2 and tdf["condition"].nunique() >= 2:
+        try:
+            ols = smf.ols("pct_cxcr3_pos ~ C(condition) * C(dataset)", data=tdf).fit()
+            interaction_terms = [t for t in ols.pvalues.index if ":" in t]
+            if interaction_terms:
+                interaction_p = ols.pvalues[interaction_terms[0]]
+                verdict = "SIGNIFICANT interaction -- effect differs by dataset" if interaction_p < 0.05 \
+                    else "no significant interaction -- effect is consistent across datasets"
+                print(f"    Interaction test (condition x dataset): p={interaction_p:.3g} ({verdict})")
+        except Exception as exc:  # noqa: BLE001
+            print(f"    [warn] interaction model failed to fit: {exc}")
+
+    return {"tissue": tissue, "per_dataset": per_dataset_df,
+            "directions_agree": directions_agree, "interaction_pvalue": interaction_p}
+
 
 def main() -> None:
     adata = sc.read_h5ad(RESULTS_DIR / "merged_bcells.h5ad")
@@ -411,7 +541,7 @@ def main() -> None:
     # ── Patient-level proportions ─────────────────────────────────────────
     patient_df = (
         adata.obs
-        .groupby(["patient", "condition", "tissue"])["cxcr3_group"]
+        .groupby(["patient", "condition", "tissue", "dataset"])["cxcr3_group"]
         .apply(lambda x: (x == "CXCR3+").mean() * 100)
         .reset_index(name="pct_cxcr3_pos")
     )
@@ -442,10 +572,6 @@ def main() -> None:
     print("\nGSE138266 MS patients (PB/CSF presence):")
     print(ms_266)
 
-    # NOTE: CIS is excluded from the bar chart because it is represented in
-    # only one tissue compartment (PB) in the current datasets.  If CSF data
-    # for CIS become available, add "CIS-PB" and "CIS-CSF" to ORDER_BAR above.
-
     bar_df = (
         patient_df.groupby("group4", observed=True)["pct_cxcr3_pos"]
         .agg(["mean", "std", "count"])
@@ -468,6 +594,23 @@ def main() -> None:
     for tissue, p in pvals.items():
         msg = f"{p:.4f}" if not np.isnan(p) else "N/A"
         print(f"  Mann-Whitney U  HC vs MS  {tissue}: p = {msg}")
+
+    # Dataset-of-origin confounding check (reviewer concern #4): does the
+    # HC-vs-MS %CXCR3+ difference hold within each dataset separately?
+    confound_pb = check_bar_dataset_confounding(patient_df, tissue="PB")
+    confound_csf = check_bar_dataset_confounding(patient_df, tissue="CSF")
+    confound_pb["per_dataset"].to_csv(
+        RESULTS_DIR / "Fig1_PB_CXCR3pct_dataset_confounding_check.csv", index=False
+    )
+    confound_csf["per_dataset"].to_csv(
+        RESULTS_DIR / "Fig1_CSF_CXCR3pct_dataset_confounding_check.csv", index=False
+    )
+    pd.DataFrame([
+        {"tissue": "PB", "directions_agree": confound_pb["directions_agree"],
+         "interaction_pvalue": confound_pb["interaction_pvalue"]},
+        {"tissue": "CSF", "directions_agree": confound_csf["directions_agree"],
+         "interaction_pvalue": confound_csf["interaction_pvalue"]},
+    ]).to_csv(RESULTS_DIR / "Fig1_dataset_confounding_summary.csv", index=False)
 
     # ── Individual panel PDFs ─────────────────────────────────────────────
     fig1_dir = FIG_DIRS["fig1"]
