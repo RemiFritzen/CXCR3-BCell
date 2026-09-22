@@ -2,3 +2,4 @@ data/
 *.h5ad
 .DS_Store
 __pycache__/
+!data/10xToh5ad.py
