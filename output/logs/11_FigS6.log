@@ -1,0 +1,37 @@
+# FigS6 (output/figures/supp/FigS6.py)
+# 2026-09-20T16:02:55.890774
+
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+
+Running paired DE: CXCR3+ vs CXCR3- PB, conditions=['MS'] …
+    MS: 18 patients w/ CXCR3+, 18 w/ CXCR3-, 18 with BOTH (24335 cells total)
+    min_pct=10%: 179/2014 genes retained (4 curated zinc/MT gene(s) kept despite low prevalence)
+  179 genes in CXCR3+ vs CXCR3- DE table (MS)
+MS CXCR3+ vs CXCR3- bar genes (14/14 of curated panel): ['MT2A', 'MT1X', 'MT1F', 'MT1E', 'SLC39A7', 'SLC39A6', 'SLC39A10', 'SLC39A9', 'SLC39A14', 'SLC39A1', 'SLC39A4', 'SLC30A9', 'SLC30A1', 'SLC39A11']
+
+Running paired DE: CXCR3+ vs CXCR3- PB, conditions=['HC'] …
+    HC: 8 patients w/ CXCR3+, 8 w/ CXCR3-, 8 with BOTH (6213 cells total)
+    min_pct=10%: 144/2014 genes retained (5 curated zinc/MT gene(s) kept despite low prevalence)
+  144 genes in CXCR3+ vs CXCR3- DE table (HC)
+HC CXCR3+ vs CXCR3- bar genes (14/14 of curated panel): ['MT2A', 'MT1F', 'MT1X', 'MT1E', 'SLC39A7', 'SLC39A10', 'SLC39A6', 'SLC39A11', 'SLC39A9', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'SLC39A1', 'SLC39A4']
+
+Signed vs unsigned signature p-values (sanity check):
+  HC: signed p=3.828e-01   unsigned p=1.562e-02
+  MS: signed p=4.005e-03   unsigned p=7.629e-06
+
+  === Dataset confounding check: CXCR3+ vs CXCR3- paired, PB, HC, signed signature ===
+    [GSE133028] n=3 paired patients: median(CXCR3+ - CXCR3-)=-0.046, Wilcoxon signed-rank p=0.25
+    [GSE138266] n=5 paired patients: median(CXCR3+ - CXCR3-)=-0.061, Wilcoxon signed-rank p=0.625
+    Direction is consistent across all testable datasets.
+    Between-dataset comparison of (CXCR3+ - CXCR3-) differences: p=0.786 (not significant -- paired shift magnitude is consistent across datasets)
+
+  === Dataset confounding check: CXCR3+ vs CXCR3- paired, PB, MS, signed signature ===
+    [GSE133028] n=13 paired patients: median(CXCR3+ - CXCR3-)=-0.068, Wilcoxon signed-rank p=0.0061
+    [GSE138266] n=5 paired patients: median(CXCR3+ - CXCR3-)=-0.026, Wilcoxon signed-rank p=0.438
+    Direction is consistent across all testable datasets.
+    Between-dataset comparison of (CXCR3+ - CXCR3-) differences: p=0.208 (not significant -- paired shift magnitude is consistent across datasets)
+[HC] PAIRED PATIENT-LEVEL plot: n=8 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=3.828e-01
+[MS] PAIRED PATIENT-LEVEL plot: n=18 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=4.005e-03
+
+✓ Figure saved to /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3_paired_pb/FigS6_CXCR3_PB_6panel.png and /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3_paired_pb/FigS6_CXCR3_PB_6panel.pdf

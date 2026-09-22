@@ -1,0 +1,199 @@
+# fig4 (output/figures/fig4_patient_level/Fig4.py)
+# 2026-09-20T16:01:34.753760
+
+CXCR3+ restriction: 5,900/40,199 cells retained (14.7%); 28/28 patients retained (a patient can be lost entirely if they have zero CXCR3+ B cells in a given tissue -- check EDSS/HC-vs-disease panels for reduced n).
+
+=== Population: CXCR3+ B cells (CXCR3pos) -- 5,900 cells, 28 patients ===
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+  [patient_num check] 28 derived patient_num values in expression data, 31 patients in clinical metadata
+  [WARNING] 1 derived patient_num value(s) have NO match in clinical metadata -- these patients' cells will be silently dropped from EDSS/diagnosis merges (EDSS, Diagnosis, diagnosis_group all become NaN for them): ['PTC45044']
+  [note] 4 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26', 'PST45044']
+  [patient_num check] derived mapping, by dataset (VERIFY this looks correct):
+  dataset      patient patient_num
+GSE133028       CSF_10          10
+GSE133028        PB_10          10
+GSE133028       CSF_16          16
+GSE133028        PB_16          16
+GSE133028        CSF_2           2
+GSE133028         PB_2           2
+GSE133028       CSF_22          22
+GSE133028        PB_22          22
+GSE133028       CSF_24          24
+GSE133028        PB_24          24
+GSE133028       CSF_25          25
+GSE133028        PB_25          25
+GSE133028       CSF_27          27
+GSE133028        PB_27          27
+GSE133028       CSF_28          28
+GSE133028        PB_28          28
+GSE133028       CSF_29          29
+GSE133028        PB_29          29
+GSE133028        CSF_3           3
+GSE133028         PB_3           3
+GSE133028       CSF_31          31
+GSE133028        PB_31          31
+GSE133028       CSF_32          32
+GSE133028        PB_32          32
+GSE133028        CSF_6           6
+GSE133028         PB_6           6
+GSE133028        CSF_7           7
+GSE133028         PB_7           7
+GSE133028        CSF_8           8
+GSE133028         PB_8           8
+GSE133028        CSF_9           9
+GSE133028         PB_9           9
+GSE138266  MS19270_CSF     MS19270
+GSE138266   MS19270_PB     MS19270
+GSE138266  MS49131_CSF     MS49131
+GSE138266   MS49131_PB     MS49131
+GSE138266  MS58637_CSF     MS58637
+GSE138266  MS60249_CSF     MS60249
+GSE138266   MS60249_PB     MS60249
+GSE138266  MS71658_CSF     MS71658
+GSE138266   MS71658_PB     MS71658
+GSE138266  MS74594_CSF     MS74594
+GSE138266   MS74594_PB     MS74594
+GSE138266 PST83775_CSF    PST83775
+GSE138266  PST83775_PB    PST83775
+GSE138266  PST95809_PB    PST95809
+GSE138266 PST95809_CSF    PST95809
+GSE138266 PTC32190_CSF    PTC32190
+GSE138266  PTC32190_PB    PTC32190
+GSE138266 PTC41540_CSF    PTC41540
+GSE138266  PTC41540_PB    PTC41540
+GSE138266 PTC45044_CSF    PTC45044
+GSE138266 PTC85037_CSF    PTC85037
+GSE138266  PTC85037_PB    PTC85037
+Saved summary: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/patient_level_zinc_edss_CXCR3pos_pb_csf.csv
+Saved per-gene EDSS correlation table (BH-corrected across 28 gene x tissue tests): /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_gene_EDSS_correlations_all_genes_BHcorrected_CXCR3pos.csv
+  1/28 gene x tissue correlations significant after correction (padj < 0.05)
+  Figure 4 panels C/D will show: SLC39A7
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+  .infer_objects(copy=False)
+  [signed] Fig4 panel p-values:
+    Panel A: raw p=0.957, padj=0.957 (BH across 2 tests)
+    Panel B: raw p=0.546, padj=0.957 (BH across 2 tests)
+    Panel C: raw p=0.160, padj=0.690 (BH across 28 tests)
+    Panel D: raw p=<0.001, padj=0.015 (BH across 28 tests)
+Saved panel C/D data: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/Fig4CD_SLC39A7_vs_EDSS_patient_level_CXCR3pos.csv
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf.png
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf.pdf
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+  .infer_objects(copy=False)
+  [unsigned] Fig4 panel p-values:
+    Panel A: raw p=0.399, padj=0.428 (BH across 2 tests)
+    Panel B: raw p=0.428, padj=0.428 (BH across 2 tests)
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf_UNSIGNED.png
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf_UNSIGNED.pdf
+  [LOO check] SLC39A7 (PB): ROBUST -- significance does not depend on any single patient (rho range [0.69, 0.84] across 18 leave-one-out subsets).
+  Saved LOO robustness summary: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_LOO_robustness_summary_significant_genes_CXCR3pos.csv
+  Saved LOO robustness detail: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_LOO_robustness_detail_significant_genes_CXCR3pos.csv
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_MT1E_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_MT1F_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_MT1X_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_MT2A_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A1_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A4_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A6_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A7_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A9_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A10_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A11_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC39A14_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC30A1_CSF_PB_vs_EDSS_CXCR3pos.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_SLC30A9_CSF_PB_vs_EDSS_CXCR3pos.pdf
+
+=== Population: All B cells (AllBcells) -- 40,199 cells, 28 patients ===
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+  [patient_num check] 28 derived patient_num values in expression data, 31 patients in clinical metadata
+  [WARNING] 1 derived patient_num value(s) have NO match in clinical metadata -- these patients' cells will be silently dropped from EDSS/diagnosis merges (EDSS, Diagnosis, diagnosis_group all become NaN for them): ['PTC45044']
+  [note] 4 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26', 'PST45044']
+  [patient_num check] derived mapping, by dataset (VERIFY this looks correct):
+  dataset      patient patient_num
+GSE133028       CSF_10          10
+GSE133028        PB_10          10
+GSE133028       CSF_16          16
+GSE133028        PB_16          16
+GSE133028        CSF_2           2
+GSE133028         PB_2           2
+GSE133028       CSF_22          22
+GSE133028        PB_22          22
+GSE133028       CSF_24          24
+GSE133028        PB_24          24
+GSE133028       CSF_25          25
+GSE133028        PB_25          25
+GSE133028       CSF_27          27
+GSE133028        PB_27          27
+GSE133028       CSF_28          28
+GSE133028        PB_28          28
+GSE133028       CSF_29          29
+GSE133028        PB_29          29
+GSE133028        CSF_3           3
+GSE133028         PB_3           3
+GSE133028       CSF_31          31
+GSE133028        PB_31          31
+GSE133028       CSF_32          32
+GSE133028        PB_32          32
+GSE133028        CSF_6           6
+GSE133028         PB_6           6
+GSE133028        CSF_7           7
+GSE133028         PB_7           7
+GSE133028        CSF_8           8
+GSE133028         PB_8           8
+GSE133028        CSF_9           9
+GSE133028         PB_9           9
+GSE138266  MS19270_CSF     MS19270
+GSE138266   MS19270_PB     MS19270
+GSE138266  MS49131_CSF     MS49131
+GSE138266   MS49131_PB     MS49131
+GSE138266  MS58637_CSF     MS58637
+GSE138266  MS60249_CSF     MS60249
+GSE138266   MS60249_PB     MS60249
+GSE138266  MS71658_CSF     MS71658
+GSE138266   MS71658_PB     MS71658
+GSE138266  MS74594_CSF     MS74594
+GSE138266   MS74594_PB     MS74594
+GSE138266 PST83775_CSF    PST83775
+GSE138266  PST83775_PB    PST83775
+GSE138266  PST95809_PB    PST95809
+GSE138266 PST95809_CSF    PST95809
+GSE138266 PTC32190_CSF    PTC32190
+GSE138266  PTC32190_PB    PTC32190
+GSE138266 PTC41540_CSF    PTC41540
+GSE138266  PTC41540_PB    PTC41540
+GSE138266 PTC45044_CSF    PTC45044
+GSE138266 PTC85037_CSF    PTC85037
+GSE138266  PTC85037_PB    PTC85037
+Saved summary: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/main/patient_level_zinc_edss_AllBcells_pb_csf.csv
+Saved per-gene EDSS correlation table (BH-corrected across 28 gene x tissue tests): /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_gene_EDSS_correlations_all_genes_BHcorrected_AllBcells.csv
+  0/28 gene x tissue correlations significant after correction (padj < 0.05)
+  No gene cleared correction -- Figure 4 will be the 2-panel composite figure only.
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+  .infer_objects(copy=False)
+  [signed] Fig4 panel p-values:
+    Panel A: raw p=0.902, padj=0.902 (BH across 2 tests)
+    Panel B: raw p=0.597, padj=0.902 (BH across 2 tests)
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/main/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf.png
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/main/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf.pdf
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+  .infer_objects(copy=False)
+  [unsigned] Fig4 panel p-values:
+    Panel A: raw p=0.373, padj=0.373 (BH across 2 tests)
+    Panel B: raw p=0.252, padj=0.373 (BH across 2 tests)
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf_UNSIGNED.png
+Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf_UNSIGNED.pdf
+  [LOO check] No gene x tissue correlations cleared padj < 0.05 -- nothing to robustness-check.
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_MT1E_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_MT1F_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_MT1X_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_MT2A_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A1_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A4_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A6_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A7_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A9_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A10_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A11_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC39A14_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC30A1_CSF_PB_vs_EDSS_AllBcells.pdf
+Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_SLC30A9_CSF_PB_vs_EDSS_AllBcells.pdf

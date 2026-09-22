@@ -42,12 +42,23 @@ FIGURE_DIR  = OUTPUT_DIR / "figures"      # All manuscript figures
 
 # -- Per-figure subdirectories ------------------------------------------------
 # Add new entries here when adding a new figure panel.
+#
+# Supplementary figures each get their OWN subdirectory under supp/, named by
+# content rather than by "S-number" -- the manuscript's Figure S3/S4/S5/S7
+# numbering is still being finalized (see figure-numbering audit), and a
+# content-based folder name doesn't need to change if/when that numbering
+# does. Whatever the final "Figure S#" label ends up being, it points to the
+# same stable folder.
 FIG_DIRS = {
     "fig1": FIGURE_DIR / "fig1_umap_overview",
     "fig2": FIGURE_DIR / "fig2_cxcr3_zinc",
     "fig3": FIGURE_DIR / "fig3_csf_vs_pb",
     "fig4": FIGURE_DIR / "fig4_patient_level",
     "supp": FIGURE_DIR / "supp",
+    "supp_cxcr3neg_hc_vs_ms": FIGURE_DIR / "supp" / "cxcr3neg_hc_vs_ms",   # FigS4.py
+    "supp_pb_vs_csf_paired":  FIGURE_DIR / "supp" / "pb_vs_csf_paired",    # FigS5.py (both CXCR3+/-)
+    "supp_cxcr3_paired_pb":   FIGURE_DIR / "supp" / "cxcr3_paired_pb",     # FigS6.py
+    "supp_cxcr3_paired_csf":  FIGURE_DIR / "supp" / "cxcr3_paired_csf",    # FigS7.py
 }
 
 # -- Config / metadata files --------------------------------------------------

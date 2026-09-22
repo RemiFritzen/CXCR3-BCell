@@ -1,0 +1,56 @@
+# fig1 (output/figures/fig1_umap_overview/plot_figure1_umap_bar.py)
+# 2026-09-20T16:01:13.500580
+
+
+Patients per dataset / condition / tissue:
+     dataset condition tissue  n_patients
+0  GSE133028        HC    CSF           3
+1  GSE133028        HC     PB           3
+2  GSE133028        MS    CSF          13
+3  GSE133028        MS     PB          13
+4  GSE138266        HC    CSF           6
+5  GSE138266        HC     PB           5
+6  GSE138266        MS    CSF           6
+7  GSE138266        MS     PB           5
+
+GSE138266 MS patients (PB/CSF presence):
+                   patient tissue  n_cells
+0    GSE138266_MS19270_CSF    CSF      650
+1     GSE138266_MS19270_PB     PB     1300
+2    GSE138266_MS49131_CSF    CSF      187
+3     GSE138266_MS49131_PB     PB     1106
+4    GSE138266_MS58637_CSF    CSF      218
+5    GSE138266_MS60249_CSF    CSF     1287
+6     GSE138266_MS60249_PB     PB      790
+7    GSE138266_MS71658_CSF    CSF      318
+8     GSE138266_MS71658_PB     PB      585
+9    GSE138266_MS74594_CSF    CSF       74
+10    GSE138266_MS74594_PB     PB     1473
+11  GSE138266_PST83775_CSF    CSF      108
+12   GSE138266_PST83775_PB     PB      645
+13  GSE138266_PST95809_CSF    CSF       71
+14   GSE138266_PST95809_PB     PB      290
+15  GSE138266_PTC32190_CSF    CSF      201
+16   GSE138266_PTC32190_PB     PB      369
+17  GSE138266_PTC41540_CSF    CSF       76
+18   GSE138266_PTC41540_PB     PB      978
+19  GSE138266_PTC45044_CSF    CSF      548
+20  GSE138266_PTC85037_CSF    CSF       73
+21   GSE138266_PTC85037_PB     PB      226
+  Mann-Whitney U  HC vs MS  PB: p = 0.3971
+  Mann-Whitney U  HC vs MS  CSF: p = 0.2378
+
+  === Dataset confounding check: PB %CXCR3+ (HC vs MS) ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=-4.62 pct-pts, Mann-Whitney p=0.111
+    [GSE138266] n=5 HC, 5 MS: median(MS-HC)=+5.13 pct-pts, Mann-Whitney p=0.0317
+    [WARNING] Direction of the HC-vs-MS %CXCR3+ difference is INCONSISTENT across datasets -- investigate before reporting the pooled bracket p-value as dataset-independent.
+    Interaction test (condition x dataset): p=0.0233 (SIGNIFICANT interaction -- effect differs by dataset)
+
+  === Dataset confounding check: CSF %CXCR3+ (HC vs MS) ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=-7.77 pct-pts, Mann-Whitney p=0.8
+    [GSE138266] n=6 HC, 6 MS: median(MS-HC)=+11.37 pct-pts, Mann-Whitney p=0.0931
+    [WARNING] Direction of the HC-vs-MS %CXCR3+ difference is INCONSISTENT across datasets -- investigate before reporting the pooled bracket p-value as dataset-independent.
+    Interaction test (condition x dataset): p=0.361 (no significant interaction -- effect is consistent across datasets)
+Saved combined figure → /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig1_umap_overview/figure1_umap_bar.png
+
+Done.

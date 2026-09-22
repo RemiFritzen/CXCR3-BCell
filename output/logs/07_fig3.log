@@ -1,0 +1,98 @@
+# fig3 (output/figures/fig3_csf_vs_pb/fig3.py)
+# 2026-09-20T16:01:29.790257
+
+Checking PB/CSF subject-ID pairing …
+  [pairing check] 'patient' as-is: 0/54 distinct values have both PB and CSF cells
+  [pairing check] 'patient' does NOT pair across tissues as-is. After stripping tissue tokens: 26/28 derived subject IDs have both PB and CSF cells
+  [pairing check] 26/28 derived subject IDs have BOTH tissues -- 2 do NOT:
+    MS58637: only has CSF -- no matching sample in the other tissue
+    PTC45044: only has CSF -- no matching sample in the other tissue
+  If a subject above is unexpectedly missing a tissue (i.e. you believe both a PB and CSF sample exist for them), check the earlier console output from load_dataset (data_io.py) for a '[skip] <path> not found' message or a '0 cells retained' B-cell gate result for that subject/tissue -- a listed file that failed to load or yielded zero B cells will silently vanish from pairing without appearing as an error here.
+  [pairing check] full derived mapping (54 rows) -- VERIFY this looks correct:
+    original tissue derived_subject_id
+      CSF_10    CSF                 10
+       PB_10     PB                 10
+      CSF_16    CSF                 16
+       PB_16     PB                 16
+       CSF_2    CSF                  2
+        PB_2     PB                  2
+      CSF_22    CSF                 22
+       PB_22     PB                 22
+      CSF_24    CSF                 24
+       PB_24     PB                 24
+      CSF_25    CSF                 25
+       PB_25     PB                 25
+      CSF_27    CSF                 27
+       PB_27     PB                 27
+      CSF_28    CSF                 28
+       PB_28     PB                 28
+      CSF_29    CSF                 29
+       PB_29     PB                 29
+       CSF_3    CSF                  3
+        PB_3     PB                  3
+      CSF_31    CSF                 31
+       PB_31     PB                 31
+      CSF_32    CSF                 32
+       PB_32     PB                 32
+       CSF_6    CSF                  6
+        PB_6     PB                  6
+       CSF_7    CSF                  7
+        PB_7     PB                  7
+       CSF_8    CSF                  8
+        PB_8     PB                  8
+       CSF_9    CSF                  9
+        PB_9     PB                  9
+ MS19270_CSF    CSF            MS19270
+  MS19270_PB     PB            MS19270
+ MS49131_CSF    CSF            MS49131
+  MS49131_PB     PB            MS49131
+ MS58637_CSF    CSF            MS58637
+ MS60249_CSF    CSF            MS60249
+  MS60249_PB     PB            MS60249
+ MS71658_CSF    CSF            MS71658
+  MS71658_PB     PB            MS71658
+ MS74594_CSF    CSF            MS74594
+  MS74594_PB     PB            MS74594
+PST83775_CSF    CSF           PST83775
+ PST83775_PB     PB           PST83775
+ PST95809_PB     PB           PST95809
+PST95809_CSF    CSF           PST95809
+PTC32190_CSF    CSF           PTC32190
+ PTC32190_PB     PB           PTC32190
+PTC41540_CSF    CSF           PTC41540
+ PTC41540_PB     PB           PTC41540
+PTC45044_CSF    CSF           PTC45044
+PTC85037_CSF    CSF           PTC85037
+ PTC85037_PB     PB           PTC85037
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+
+Running paired DE: PB vs CSF CXCR3+, conditions=['MS'] …
+    MS: 18 subjects w/ PB, 19 w/ CSF, 18 with BOTH (4948 cells total)
+    min_pct=10%: 170/2014 genes retained (4 curated zinc/MT gene(s) kept despite low prevalence)
+  170 genes in PB vs CSF DE table (MS)
+
+  === Competitive rank test: MS PB vs CSF ===
+    n zinc genes = 14, n background genes = 156
+    median log2FC: zinc = +0.0082, background = -0.0402 (66% of background genes negative)
+    Two-sided: p=0.0765   |   zinc ranked HIGHER than background: p=0.0382   |   zinc ranked LOWER than background: p=0.9622
+    --- Magnitude test (|log2FC|, direction-agnostic) ---
+    median |log2FC|: zinc = 0.0279, background = 0.0880
+    Two-sided: p=0.0000   |   zinc varies MORE than background: p=1.0000
+    [INTERPRETATION] The zinc/MT panel is significantly LESS variable than background (tighter |log2FC|) -- consistent with tighter regulatory control of this gene set, rather than a coordinated shift. Verify this isn't itself an artifact (e.g. background inflated by a few high-expression/technical genes) before treating as a biological finding -- compare background |log2FC| with vs without mitochondrial/ribosomal/housekeeping genes excluded.
+
+Running paired DE: PB vs CSF CXCR3+, conditions=['HC'] …
+    HC: 8 subjects w/ PB, 9 w/ CSF, 8 with BOTH (952 cells total)
+    min_pct=10%: 142/2014 genes retained (4 curated zinc/MT gene(s) kept despite low prevalence)
+  142 genes in PB vs CSF DE table (HC)
+
+  === Competitive rank test: HC PB vs CSF ===
+    n zinc genes = 14, n background genes = 128
+    median log2FC: zinc = -0.0214, background = -0.0677 (72% of background genes negative)
+    Two-sided: p=0.2781   |   zinc ranked HIGHER than background: p=0.1390   |   zinc ranked LOWER than background: p=0.8625
+    --- Magnitude test (|log2FC|, direction-agnostic) ---
+    median |log2FC|: zinc = 0.0310, background = 0.1056
+    Two-sided: p=0.0012   |   zinc varies MORE than background: p=0.9994
+    [INTERPRETATION] The zinc/MT panel is significantly LESS variable than background (tighter |log2FC|) -- consistent with tighter regulatory control of this gene set, rather than a coordinated shift. Verify this isn't itself an artifact (e.g. background inflated by a few high-expression/technical genes) before treating as a biological finding -- compare background |log2FC| with vs without mitochondrial/ribosomal/housekeeping genes excluded.
+  Saved rank test magnitude plot -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig3_csf_vs_pb/Fig3_CXCR3pos_rank_test_magnitude.png
+
+Saved Figure 3 (rank test) outputs in: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig3_csf_vs_pb

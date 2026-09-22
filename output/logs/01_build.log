@@ -1,0 +1,229 @@
+# build (run_all_zinc_analyses.py)
+# 2026-09-20T15:53:06.462538
+
+
+[GSE133028]
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_2.h5ad ...
+CSF_2
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_3.h5ad ...
+CSF_3
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_6.h5ad ...
+CSF_6
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_7.h5ad ...
+CSF_7
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_8.h5ad ...
+CSF_8
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_9.h5ad ...
+CSF_9
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_10.h5ad ...
+CSF_10
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_16.h5ad ...
+CSF_16
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_22.h5ad ...
+CSF_22
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_24.h5ad ...
+CSF_24
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_25.h5ad ...
+CSF_25
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_27.h5ad ...
+CSF_27
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_28.h5ad ...
+CSF_28
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_29.h5ad ...
+CSF_29
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_31.h5ad ...
+CSF_31
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/CSF_32.h5ad ...
+CSF_32
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_2.h5ad ...
+PB_2
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_3.h5ad ...
+PB_3
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_6.h5ad ...
+PB_6
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_7.h5ad ...
+PB_7
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_8.h5ad ...
+PB_8
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_9.h5ad ...
+PB_9
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_10.h5ad ...
+PB_10
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_16.h5ad ...
+PB_16
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_22.h5ad ...
+PB_22
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_24.h5ad ...
+PB_24
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_25.h5ad ...
+PB_25
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_27.h5ad ...
+PB_27
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_28.h5ad ...
+PB_28
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_29.h5ad ...
+PB_29
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_31.h5ad ...
+PB_31
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE133028/PB_32.h5ad ...
+PB_32
+/Users/remi/Library/spyder-6/envs/spyder-runtime/lib/python3.12/site-packages/anndata/_core/anndata.py:1882: UserWarning: Observation names are not unique. To make them unique, call `.obs_names_make_unique`.
+  utils.warn_names_duplicates("obs")
+/Users/remi/Library/spyder-6/envs/spyder-runtime/lib/python3.12/site-packages/anndata/_core/anndata.py:1882: UserWarning: Observation names are not unique. To make them unique, call `.obs_names_make_unique`.
+  utils.warn_names_duplicates("obs")
+  Step1: 28626 / 176208 cells with any B marker > 0 (4 markers used)
+/Users/remi/Library/spyder-6/envs/spyder-runtime/lib/python3.12/site-packages/anndata/_core/anndata.py:1882: UserWarning: Observation names are not unique. To make them unique, call `.obs_names_make_unique`.
+  utils.warn_names_duplicates("obs")
+  Step2: SKIPPED (no non-B markers supplied) -- all 28626 B-marker-positive cells retained.
+  Final B-gate: 28626 cells retained.
+  GSE133028: 28626 cells retained.
+
+[GSE138266]
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS19270_CSF.h5ad ...
+MS19270_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS19270_PB.h5ad ...
+MS19270_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS49131_CSF.h5ad ...
+MS49131_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS49131_PB.h5ad ...
+MS49131_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS58637_CSF.h5ad ...
+MS58637_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS60249_CSF.h5ad ...
+MS60249_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS60249_PB.h5ad ...
+MS60249_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS71658_CSF.h5ad ...
+MS71658_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS71658_PB.h5ad ...
+MS71658_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS74594_CSF.h5ad ...
+MS74594_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/MS74594_PB.h5ad ...
+MS74594_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC45044_CSF.h5ad ...
+PTC45044_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PST83775_CSF.h5ad ...
+PST83775_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PST83775_PB.h5ad ...
+PST83775_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PST95809_PB.h5ad ...
+PST95809_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PST95809_CSF.h5ad ...
+PST95809_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC32190_CSF.h5ad ...
+PTC32190_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC32190_PB.h5ad ...
+PTC32190_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC41540_CSF.h5ad ...
+PTC41540_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC41540_PB.h5ad ...
+PTC41540_PB
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC85037_CSF.h5ad ...
+PTC85037_CSF
+  Loading /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/data/processed/GSE138266/PTC85037_PB.h5ad ...
+PTC85037_PB
+  Step1: 11573 / 76204 cells with any B marker > 0 (4 markers used)
+  Step2: SKIPPED (no non-B markers supplied) -- all 11573 B-marker-positive cells retained.
+  Final B-gate: 11573 cells retained.
+  GSE138266: 11573 cells retained.
+/Users/remi/Library/spyder-6/envs/spyder-runtime/lib/python3.12/site-packages/anndata/_core/anndata.py:1882: UserWarning: Observation names are not unique. To make them unique, call `.obs_names_make_unique`.
+  utils.warn_names_duplicates("obs")
+
+Total cells after merge: 40199
+ [fix] Making obs_names unique in merged object
+
+Plotting CXCR3+/- threshold rationale …
+  CXCR3 threshold rationale: 5,900/40,199 cells (14.7%) classified CXCR3+ at count > 0
+  Saved -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/diagnostics/cxcr3_threshold_rationale.png
+  Saved -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/diagnostics/cxcr3_threshold_rationale.pdf
+  CXCR3+ rate by dataset:
+           pct_CXCR3pos  n_cells
+dataset                         
+GSE133028          14.8    28626
+GSE138266          14.4    11573
+  CXCR3+ rate by tissue:
+        pct_CXCR3pos  n_cells
+tissue                       
+CSF             32.8     9651
+PB               8.9    30548
+
+Computing curated zinc/MT gene expression diagnostics (raw counts) …
+  Saved zinc/MT gene expression diagnostics -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/diagnostics/zinc_gene_expression_diagnostics.csv
+  No curated genes fell below the 1.0% CXCR3+ prevalence flag in every tissue.
+
+Computing total counts / library complexity by tissue (raw counts) …
+
+  Total counts / complexity by tissue (raw counts):
+       total_counts                           n_genes_detected                         
+             median         mean          std           median         mean         std
+tissue                                                                                 
+CSF          3653.0  5288.237793  5092.095703           1416.0  1672.994094  987.333476
+PB           4234.0  5259.979492  4004.568115           1556.5  1745.008478  949.673207
+
+  Total counts / complexity by tissue x dataset:
+                 total_counts              n_genes_detected             
+                       median         mean           median         mean
+tissue dataset                                                          
+CSF    GSE133028       3953.0  5318.539062           1653.0  1878.754110
+       GSE138266       3307.0  5241.804199           1037.0  1357.686172
+PB     GSE133028       4712.5  5777.780273           1776.0  1973.589002
+       GSE138266       3111.0  3739.933105            955.0  1073.991239
+
+  Total-count medians differ by only 1.16x between tissues -- unlikely to be the main driver of any broad background log2FC skew observed downstream; look elsewhere (e.g. cell-type composition, ambient RNA) for that.
+  Saved -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/diagnostics/total_counts_by_tissue.png
+
+Zinc genes present in merged object: 14 / 14
+/Users/remi/Library/spyder-6/envs/spyder-runtime/lib/python3.12/functools.py:912: UserWarning: zero-centering a sparse array/matrix densifies it.
+  return dispatch(args[0].__class__)(*args, **kw)
+2026-09-20 15:53:41,962 - harmonypy - INFO - Running Harmony
+2026-09-20 15:53:41,963 - harmonypy - INFO -   Parameters:
+2026-09-20 15:53:41,963 - harmonypy - INFO -     max_iter_harmony: 10
+2026-09-20 15:53:41,963 - harmonypy - INFO -     max_iter_kmeans: 4
+2026-09-20 15:53:41,963 - harmonypy - INFO -     epsilon_cluster: 0.001
+2026-09-20 15:53:41,963 - harmonypy - INFO -     epsilon_harmony: 0.01
+2026-09-20 15:53:41,963 - harmonypy - INFO -     nclust: 100
+2026-09-20 15:53:41,963 - harmonypy - INFO -     block_size: 0.05
+2026-09-20 15:53:41,963 - harmonypy - INFO -     lamb: dynamic (alpha=0.2)
+2026-09-20 15:53:41,963 - harmonypy - INFO -     theta: [2. 2.]
+2026-09-20 15:53:41,963 - harmonypy - INFO -     sigma: [0.1 0.1 0.1 0.1 0.1]...
+2026-09-20 15:53:41,963 - harmonypy - INFO -     verbose: True
+2026-09-20 15:53:41,963 - harmonypy - INFO -     random_state: 0
+2026-09-20 15:53:41,963 - harmonypy - INFO -   Data: 30 PCs × 40199 cells
+2026-09-20 15:53:41,963 - harmonypy - INFO -   Batch variables: ['dataset']
+2026-09-20 15:53:41,973 - harmonypy - INFO - Computing initial centroids...
+2026-09-20 15:53:42,621 - harmonypy - INFO - Initialization complete.
+2026-09-20 15:53:42,621 - harmonypy - INFO - Iteration 1 of 10
+2026-09-20 15:53:43,055 - harmonypy - INFO - Iteration 2 of 10
+2026-09-20 15:53:43,536 - harmonypy - INFO - Iteration 3 of 10
+2026-09-20 15:53:44,014 - harmonypy - INFO - Iteration 4 of 10
+2026-09-20 15:53:44,487 - harmonypy - INFO - Converged after 4 iterations
+Harmony Z_corr shape: (40199, 30)
+Merged object: 40199 cells x 2014 genes
+Datasets : ['GSE133028', 'GSE138266']
+Conditions: ['HC', 'MS']
+Tissues   : ['CSF', 'PB']
+Saved merged object -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/merged_bcells.h5ad
+
+Zinc genes present in  14 / 14
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+
+=== CSF: 3169 CXCR3+ cells, 6482 CXCR3- cells, 28 patients (POOLED across both datasets) ===
+  Saved -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/CSF_POOLED_zinc_results.csv
+  Signature (paired, POOLED both datasets, n=28 patients): unsigned p=0.01563260704278946, signed p=0.831373319029808
+  Between-dataset comparison of per-patient CXCR3+/- differences ([('GSE133028', 16), ('GSE138266', 12)]): p=0.236 (not significant -- shift magnitude consistent across datasets)
+    [HC, POOLED both datasets] n=9 patients: unsigned p=0.25, signed p=0.49609375
+    [MS, POOLED both datasets] n=19 patients: unsigned p=0.000335693359375, signed p=0.37359619140625
+    [GSE133028 only] n=16 patients: unsigned p=0.02496337890625, signed p=0.781951904296875
+    [GSE138266 only] n=12 patients: unsigned p=0.2333984375, signed p=0.67724609375
+
+=== PB: 2731 CXCR3+ cells, 27817 CXCR3- cells, 26 patients (POOLED across both datasets) ===
+  Saved -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/PB_POOLED_zinc_results.csv
+  Signature (paired, POOLED both datasets, n=26 patients): unsigned p=2.9802322387695312e-08, signed p=0.0009347796440124512
+  Between-dataset comparison of per-patient CXCR3+/- differences ([('GSE133028', 16), ('GSE138266', 10)]): p=0.28 (not significant -- shift magnitude consistent across datasets)
+    [HC, POOLED both datasets] n=8 patients: unsigned p=0.0078125, signed p=0.1953125
+    [MS, POOLED both datasets] n=18 patients: unsigned p=7.62939453125e-06, signed p=0.00128936767578125
+    [GSE133028 only] n=16 patients: unsigned p=3.0517578125e-05, signed p=0.000579833984375
+    [GSE138266 only] n=10 patients: unsigned p=0.001953125, signed p=0.322265625
+
+Done.

@@ -1,0 +1,39 @@
+{
+  "started_utc": "2026-09-22T20:23:32.606767+00:00",
+  "finished_utc": "2026-09-22T20:24:28.042036+00:00",
+  "total_seconds": 55.4,
+  "git": {
+    "commit": "4ac6c80491b5e7b61b9bdc12b0e93316dd25e284",
+    "branch": "main",
+    "describe": "corrigendum-v1-dirty",
+    "uncommitted_changes": true
+  },
+  "versions": {
+    "python": "3.12.11",
+    "numpy": "2.4.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.0",
+    "scanpy": "1.12.1",
+    "anndata": "0.12.16",
+    "statsmodels": "0.14.6",
+    "harmonypy": "2.0.0",
+    "matplotlib": "3.10.9",
+    "seaborn": "0.13.2",
+    "h5py": "3.16.0",
+    "sklearn": "1.8.0",
+    "yaml": "6.0.3"
+  },
+  "command": "run_all.py --only fig4 --skip-checks",
+  "preflight": null,
+  "steps": [
+    {
+      "step": "fig4",
+      "path": "output/figures/fig4_patient_level/Fig4.py",
+      "status": "ok",
+      "seconds": 55.4,
+      "returncode": 0,
+      "log": "output/logs/01_fig4.log"
+    }
+  ],
+  "all_ok": true
+}

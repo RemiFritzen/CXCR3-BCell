@@ -1,0 +1,25 @@
+# sexcheck (sex_stratified_sensitivity_check.py)
+# 2026-09-20T16:03:14.959005
+
+Loaded 14 curated zinc/MT genes
+
+=== PB, MS CXCR3+, sex-stratified check ===
+  n patients: M=6, F=12 (2186 cells total)
+  Composite signature (signed), M vs F: n_M=6, n_F=12, p=0.4936436116695404
+  No Fig 2 significant genes to check individually for PB (PB had 0/14 individually significant in the original comparison).
+
+=== CSF, MS CXCR3+, sex-stratified check ===
+  n patients: M=7, F=12 (2762 cells total)
+  Composite signature (signed), M vs F: n_M=7, n_F=12, p=0.6503532528877258
+  Per-gene check (Fig 2's significant genes for this tissue), M vs F:
+    gene    log2fc     pval     padj
+SLC39A14 -0.022542 0.066768 0.400607
+SLC39A11 -0.096772 0.836945 0.836945
+ SLC30A9  0.025232 0.836945 0.836945
+ SLC39A6  0.016263 0.482416 0.836945
+ SLC39A9 -0.023708 0.767281 0.836945
+ SLC30A1 -0.012625 0.421219 0.836945
+
+Saved sex-stratified check outputs -> /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/sex_stratified_check
+
+Note for the manuscript response: HC was not tested (n=8 total, ~3-5 per sex after splitting -- too few to test reliably). This check is MS-only, matching Fig 2's population, and asks whether the already-established MS composite signature and per-gene findings are confounded by sex, not a new independent claim about sex effects in HC.

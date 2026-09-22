@@ -6,36 +6,73 @@ Patient-level Figure 4 for CXCR3 / zinc project.
 
 Main figure:
 - A/B: zinc signature vs EDSS in CSF / PB
-- C/D: HC vs CIS+MS boxplots with on-panel Mann-Whitney p-values
+
+The HC-vs-MS comparison that used to occupy panels C/D has been REMOVED
+from this figure. It is the same patient-level Mann-Whitney test that
+Figure 2C/D already reports, and Figure 2 is authoritative for it:
+Fig2.py reads condition directly from the h5ad `obs`, whereas this script
+inner-joins onto the hard-coded `load_clinical_metadata()` table, which
+silently drops any patient without a matching row. That produced a
+smaller n and a different p-value here than in Figure 2 for the same
+comparison. Do not reinstate C/D without first reconciling
+`load_clinical_metadata()` against the h5ad metadata (see the notes on
+that function).
+
+Set EMIT_HC_VS_MS_PANELS = True below to regenerate the old C/D panels,
+their CSVs and the supplementary HC-vs-MS boxplots.
 
 Supplementary figures:
-- HC / CIS / MS boxplots for zinc signature in CSF / PB
 - One PDF per gene, with 2 panels each: CSF vs EDSS and PB vs EDSS
+
+Runs for TWO populations (CXCR3+ B cells, primary; all B cells regardless
+of CXCR3 status, supplementary) -- see run_fig4_for_population(). Output
+is organized as:
+
+    <fig_dir>/<file_tag>/main/   -- main 2-panel figure + its panel CSVs
+    <fig_dir>/<file_tag>/supp/   -- per-gene EDSS PDFs, LOO
+                                     robustness checks, unsigned-signature
+                                     comparison, correlation tables
+
+where <file_tag> is "CXCR3pos" or "AllBcells", so both the population and
+the main-vs-supplementary distinction are visible directly in the folder
+path rather than only in filename prefixes.
 """
 
 from __future__ import annotations
 
 import warnings
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import scanpy as sc
 from scipy.stats import spearmanr, mannwhitneyu, kruskal
+from statsmodels.stats.multitest import multipletests
 
 from config.config import FIG_DIRS, DATASETS_YAML, RESULTS_DIR
 from data_io import load_cfg
+from stats_utils import compute_gene_signs
 
 sns.set(style="whitegrid", context="talk")
 plt.rcParams["pdf.fonttype"] = 42
 plt.rcParams["ps.fonttype"] = 42
 
 TARGET_DATASETS = {"GSE133028", "GSE138266"}
-DIAG_MAP = {"RRMS": "MS", "MS": "MS", "CIS": "CIS", "HC": "HC"}
+DIAG_MAP = {"RRMS": "MS", "MS": "MS", "HC": "HC"}
 EXCLUDE_TREATED = {"18", "26"}
 
-PAL3 = {"HC": "#757575", "CIS": "#d95f02", "MS": "#1b9e77"}
+PAL3 = {"HC": "#757575", "MS": "#1b9e77"}
 PAL2 = {"HC": "#757575", "Disease": "#1b9e77"}
+
+
+# ---------------------------------------------------------------------------
+# HC-vs-MS panels (old Fig 4C/D + the supplementary boxplots of the same
+# comparison) are OFF. Figure 2C/D is the reported version of this test --
+# see the module docstring. Flip to True only to reproduce the old output
+# for comparison; it is not the figure that should be published.
+# ---------------------------------------------------------------------------
+EMIT_HC_VS_MS_PANELS = False
 
 
 def load_markers(cfg: dict) -> list[str]:
@@ -46,7 +83,47 @@ def load_markers(cfg: dict) -> list[str]:
     return [g for g in (mt + zt) if g not in artefacts]
 
 
+def load_marker_categories(cfg: dict) -> tuple[list[str], list[str]]:
+    """
+    Transporter and metallothionein gene lists kept separate (not merged),
+    needed to build the a priori gene_signs dict for the sign-corrected
+    composite signature -- see compute_gene_signs in stats_utils.py.
+    """
+    markers = cfg.get("markers", {})
+    artefacts = set(markers.get("exclude_artefacts", []))
+    transporters = [g for g in markers.get("zinc_transporters", []) if g not in artefacts]
+    mts = [g for g in markers.get("metallothioneins", []) if g not in artefacts]
+    return transporters, mts
+
+
 def load_clinical_metadata() -> pd.DataFrame:
+    """
+    Hard-coded clinical table. Everything in this script is inner-joined onto
+    it by `patient_num`, so a patient missing from here (or spelled
+    differently here) is silently dropped from every panel -- which is why
+    check_patient_num_mapping() exists.
+
+    The GSE138266 block was corrected against the source patient list
+    (GSE138266_patient_list.xlsx, Schafflick et al. Table 1, rows with
+    `cohort == "scRNA-seq"`). Every genotype-based sex call in
+    sex_annotation_check.csv agrees with that file. What changed:
+
+      * MS58637 (MS, m, 22, EDSS 0.0) was ABSENT from this table entirely
+        and was therefore dropped from every panel. Added.
+      * "MS45044" -> PST45044. The source lists 45044 as `co` (control),
+        female, 25 -- not RRMS with EDSS 1.0. Diagnosis corrected to HC and
+        the spurious EDSS removed; this also makes the ID match the h5ad.
+      * MS60249 sex M -> F, and EDSS 0.0 -> 1.0.
+      * MS19270 EDSS 0.5 -> 0.0 and MS49131 EDSS 2.5 -> 4.5. The old values
+        were EDSS @FU (at latest follow-up); these are EDSS @DC (at
+        diagnosis/collection), which is contemporaneous with the sample and
+        is what Table S1 reports. Both columns exist in the source file --
+        if the follow-up scale is wanted instead, take `EDSS @FU` for ALL
+        patients rather than mixing the two, and say which in the legend.
+
+    GSE133028 rows are unverified against a primary source; they were not
+    touched here.
+    """
     rows = [
         ["1", 43, "F", "RRMS", 0, np.nan, "Untreated", 16],
         ["2", 33, "M", "HC", np.nan, np.nan, "Untreated", np.nan],
@@ -58,26 +135,30 @@ def load_clinical_metadata() -> pd.DataFrame:
         ["10", 45, "F", "RRMS", 2, np.nan, "Untreated", 3],
         ["16", 22, "M", "RRMS", 4, np.nan, "Untreated", 0],
         ["18", 29, "F", "RRMS", 2, np.nan, "Steroids", 32],
-        ["22", 35, "F", "CIS", 4, np.nan, "Untreated", 1],
+        ["22", 35, "F", "RRMS", 4, np.nan, "Untreated", 1],
         ["24", 45, "F", "RRMS", 0, np.nan, "Untreated", 11],
         ["25", 42, "F", "RRMS", 1.5, np.nan, "Untreated", 4],
         ["26", 32, "F", "RRMS", 2, np.nan, "Steroids", 2],
         ["27", 37, "F", "RRMS", 1.5, np.nan, "Untreated", 166],
         ["28", 50, "F", "RRMS", 4, np.nan, "Untreated", 9],
         ["29", 54, "M", "RRMS", 2, np.nan, "Untreated", 49],
-        ["31", 53, "F", "CIS", 2.5, np.nan, "Untreated", 3],
+        ["31", 53, "F", "RRMS", 2.5, np.nan, "Untreated", 3],
         ["32", 41, "M", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["PST95809", 43, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["PST83775", 43, "M", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["PTC41540", 32, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["PTC85037", 25, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["PTC32190", 33, "M", "HC", np.nan, np.nan, "Untreated", np.nan],
-        ["MS45044", 25, "F", "RRMS", 1.0, np.nan, "Untreated", np.nan],
-        ["MS60249", 28, "M", "RRMS", 0.0, np.nan, "Untreated", np.nan],
+        # Corrected against GSE138266_patient_list.xlsx (Schafflick et al.
+        # Table 1, `cohort == "scRNA-seq"`). See the notes above the function
+        # for what each of these used to say.
+        ["PST45044", 25, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
+        ["MS60249", 28, "F", "RRMS", 1.0, np.nan, "Untreated", np.nan],
+        ["MS58637", 22, "M", "RRMS", 0.0, 6.0, "Untreated", np.nan],
         ["MS74594", 42, "M", "RRMS", 0.0, np.nan, "Untreated", np.nan],
-        ["MS19270", 35, "F", "RRMS", 0.5, np.nan, "Untreated", np.nan],
+        ["MS19270", 35, "F", "RRMS", 0.0, 6.0, "Untreated", np.nan],
         ["MS71658", 47, "F", "RRMS", 6.0, np.nan, "Untreated", np.nan],
-        ["MS49131", 47, "F", "RRMS", 2.5, np.nan, "Untreated", np.nan],
+        ["MS49131", 47, "F", "RRMS", 4.5, np.nan, "Untreated", np.nan],
     ]
     df = pd.DataFrame(
         rows,
@@ -117,6 +198,46 @@ def harmonise_patient_num(obs: pd.DataFrame) -> pd.DataFrame:
     obs.loc[mask266, "patient_num"] = coreid.astype(str)
 
     return obs
+
+
+def check_patient_num_mapping(obs: pd.DataFrame, clinical: pd.DataFrame) -> None:
+    """
+    Sanity-check the regex-derived `patient_num` (see harmonise_patient_num)
+    against the clinical metadata's patient IDs before trusting the merge.
+
+    harmonise_patient_num extracts patient_num via dataset-specific string
+    parsing (trailing digits for GSE133028; underscore-split + PB/CSF-strip
+    for GSE138266). If that parsing doesn't actually match the clinical
+    metadata's patient IDs, affected patients are silently dropped from the
+    EDSS/diagnosis merge (an inner/left join just produces NaN rows) rather
+    than raising an error -- so this needs to be checked explicitly, the
+    same way PB/CSF subject-ID pairing was checked in fig3.py.
+    """
+    derived = set(obs["patient_num"].dropna().unique())
+    clinical_ids = set(clinical["patient"].unique())
+    unmatched_derived = sorted(derived - clinical_ids)
+    unmatched_clinical = sorted(clinical_ids - derived)
+
+    print(f"  [patient_num check] {len(derived)} derived patient_num values in expression data, "
+          f"{len(clinical_ids)} patients in clinical metadata")
+    if unmatched_derived:
+        print(f"  [WARNING] {len(unmatched_derived)} derived patient_num value(s) have NO match in "
+              f"clinical metadata -- these patients' cells will be silently dropped from EDSS/diagnosis "
+              f"merges (EDSS, Diagnosis, diagnosis_group all become NaN for them): {unmatched_derived}")
+    if unmatched_clinical:
+        print(f"  [note] {len(unmatched_clinical)} clinical metadata patient(s) not found among derived "
+              f"patient_num values (expected if excluded/treated or simply absent from this h5ad): "
+              f"{unmatched_clinical}")
+    if not unmatched_derived and not unmatched_clinical:
+        print("  [patient_num check] Perfect match between derived patient_num and clinical metadata IDs.")
+
+    sample_map = (
+        obs[["dataset", "patient", "patient_num"]]
+        .drop_duplicates()
+        .sort_values(["dataset", "patient_num"])
+    )
+    print("  [patient_num check] derived mapping, by dataset (VERIFY this looks correct):")
+    print(sample_map.to_string(index=False))
 
 
 def get_expression_matrix(a: sc.AnnData, genes: list[str]) -> pd.DataFrame:
@@ -170,108 +291,222 @@ def _format_p(p):
     return f"{p:.3f}"
 
 
-def make_zinc_vs_edss_main_collapsed(out: pd.DataFrame, fig_dir) -> None:
+def make_zinc_vs_edss_main_collapsed(
+    out: pd.DataFrame,
+    fig_dir,
+    signature_col: str = "zinc_signature",
+    signature_label: str = "signed",
+    file_suffix: str = "",
+    population_label: str = "CXCR3+",
+    file_tag: str = "CXCR3pos",
+    sub: sc.AnnData | None = None,
+    meta: pd.DataFrame | None = None,
+    corr_table: pd.DataFrame | None = None,
+    gene_panels: list[str] | None = None,
+) -> None:
+    """
+    Figure 4. Panels A/B are the composite zinc signature against EDSS in
+    CSF and PB. Panels C/D, when drawn, are the single-gene equivalent for
+    whichever gene cleared BH correction across the full gene x tissue
+    panel.
+
+    signature_col/signature_label: which composite score panels A/B plot
+    (signed is primary -- see main(); unsigned is the supplementary
+    comparison).
+
+    population_label/file_tag: which cell population this was computed on
+    ("CXCR3+" = primary, matching Figs 2-3; "All" = supplementary). Purely
+    a labeling parameter -- the caller passes `out` already restricted.
+
+    gene_panels: genes to draw as panels C/D. Pass the genes that cleared
+    padj < 0.05 in corr_table, NOT a hard-coded name: which gene (if any)
+    survives correction has changed between analysis runs, and a literal
+    would silently keep displaying a result that no longer holds. Requires
+    `sub`, `meta` and `corr_table`. Empty or None gives the 2-panel figure.
+
+    MULTIPLE TESTING -- the two families are corrected separately and are
+    NOT pooled:
+      * A/B are a pre-specified pair of composite-vs-EDSS tests, BH-
+        corrected against each other.
+      * C/D report rho/p/padj looked up from `corr_table`, where padj is
+        already the BH correction across all gene x tissue tests. Re-
+        correcting them here against A/B would apply a second correction
+        to an already-corrected value and understate the real exposure.
+    Each panel title states which correction its padj came from.
+
+    NOTE: this figure previously had C/D carrying an HC-vs-MS Mann-Whitney
+    test that duplicated Figure 2C/D. Those panels were removed; see the
+    module docstring and EMIT_HC_VS_MS_PANELS.
+    """
     df = out.copy()
     df["EDSS"] = pd.to_numeric(df["EDSS"], errors="coerce")
-    df = df[df["zinc_signature"].notna()].copy()
+    df = df[df[signature_col].notna()].copy()
     df["diag_collapsed"] = (
         df["diagnosis_group"]
-        .replace({"CIS": "Disease", "MS": "Disease"})
+        .replace({"MS": "Disease"})
         .infer_objects(copy=False)
     )
 
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10), sharey="row")
-    fig.subplots_adjust(wspace=0.35, hspace=0.45)
+    gene_panels = list(gene_panels or [])
+    can_draw_genes = bool(gene_panels) and sub is not None and meta is not None \
+        and corr_table is not None
+    if gene_panels and not can_draw_genes:
+        print("  [warn] gene_panels requested but sub/meta/corr_table not supplied; "
+              "drawing the 2-panel composite figure only.")
+    gene = gene_panels[0] if can_draw_genes else None
+    if can_draw_genes and len(gene_panels) > 1:
+        print(f"  [note] {len(gene_panels)} genes cleared correction "
+              f"({gene_panels}); panels C/D show the strongest ({gene}). "
+              f"The rest are in the per-gene supplementary PDFs.")
 
-    for ax, tissue, letter in zip(axes[0], ["CSF", "PB"], ["A", "B"]):
+    edss_letters = ["A", "B"]
+    gene_letters = ["C", "D"] if gene else []
+
+    # ---- Pass 1: composite p-values, BH-corrected across A/B only ----
+    panel_stats: dict[str, dict] = {}
+    for tissue, letter in zip(["CSF", "PB"], edss_letters):
+        tdf = df[(df["tissue"] == tissue) & df["EDSS"].notna()]
+        rho = pval = np.nan
+        if len(tdf) >= 3 and tdf["EDSS"].nunique() >= 2:
+            rho, pval = spearmanr(tdf["EDSS"], tdf[signature_col])
+        panel_stats[letter] = {"rho": rho, "pval": pval, "n_tests": len(edss_letters)}
+
+    raw_pvals = np.array([panel_stats[l]["pval"] for l in edss_letters], dtype=float)
+    valid_mask = np.isfinite(raw_pvals)
+    padj = np.full(len(edss_letters), np.nan)
+    if valid_mask.sum() > 0:
+        padj[valid_mask] = multipletests(raw_pvals[valid_mask], method="fdr_bh")[1]
+    for i, letter in enumerate(edss_letters):
+        panel_stats[letter]["padj"] = padj[i]
+
+    # ---- Pass 1b: gene panels, padj carried over from corr_table ----
+    gene_tables: dict[str, pd.DataFrame] = {}
+    for tissue, letter in zip(["CSF", "PB"], gene_letters):
+        row = corr_table[(corr_table["gene"] == gene) & (corr_table["tissue"] == tissue)]
+        r = row.iloc[0] if not row.empty else None
+        panel_stats[letter] = {
+            "rho": float(r["rho"]) if r is not None else np.nan,
+            "pval": float(r["pvalue"]) if r is not None else np.nan,
+            "padj": float(r["padj"]) if r is not None else np.nan,
+            "n_tests": int(corr_table["pvalue"].notna().sum()),
+        }
+        gene_tables[letter] = build_gene_edss_table(sub, gene, tissue, meta)
+
+    print(f"  [{signature_label}] Fig4 panel p-values:")
+    for letter in edss_letters + gene_letters:
+        s = panel_stats[letter]
+        print(f"    Panel {letter}: raw p={_format_p(s['pval'])}, "
+              f"padj={_format_p(s['padj'])} (BH across {s['n_tests']} tests)")
+
+    # ---- Pass 2: plot ----
+    n_rows = 2 if gene else 1
+    fig, axes = plt.subplots(n_rows, 2, figsize=(14, 5.5 * n_rows),
+                             squeeze=False)
+    fig.subplots_adjust(wspace=0.25, hspace=0.45)
+
+    for ax, tissue, letter in zip(axes[0], ["CSF", "PB"], edss_letters):
         tdf = df[(df["tissue"] == tissue) & df["EDSS"].notna()].copy()
 
         for grp, gdf in tdf.groupby("diagnosis_group"):
             ax.scatter(
-                gdf["EDSS"], gdf["zinc_signature"], s=90,
+                gdf["EDSS"], gdf[signature_col], s=90,
                 label=grp, color=PAL3.get(grp, "grey"), alpha=0.9,
                 edgecolors="white", linewidths=1.2,
             )
             for _, r in gdf.iterrows():
-                ax.text(
-                    r["EDSS"], r["zinc_signature"], str(r["patient_num"]),
-                    fontsize=8, ha="left", va="bottom"
-                )
+                ax.text(r["EDSS"], r[signature_col], str(r["patient_num"]),
+                        fontsize=8, ha="left", va="bottom")
 
-        rho = pval = np.nan
-        if len(tdf) >= 3 and tdf["EDSS"].nunique() >= 2:
-            rho, pval = spearmanr(tdf["EDSS"], tdf["zinc_signature"])
-            z = np.polyfit(tdf["EDSS"], tdf["zinc_signature"], 1)
+        s = panel_stats[letter]
+        if np.isfinite(s["rho"]):
+            z = np.polyfit(tdf["EDSS"], tdf[signature_col], 1)
             xs = np.linspace(tdf["EDSS"].min(), tdf["EDSS"].max(), 100)
             ax.plot(xs, np.poly1d(z)(xs), linestyle="--", color="black", alpha=0.6)
-
-        if np.isfinite(rho):
             ax.set_title(
-                f"{letter}. {tissue} B cells (ρ={rho:.2f}, p={_format_p(pval)})",
-                fontsize=13, weight="bold"
-            )
+                f"{letter}. {tissue} {population_label} B cells "
+                f"(composite, {signature_label})\n"
+                f"\u03c1={s['rho']:.2f}, p={_format_p(s['pval'])}, "
+                f"padj={_format_p(s['padj'])}",
+                fontsize=12, weight="bold")
         else:
-            ax.set_title(f"{letter}. {tissue} B cells", fontsize=13, weight="bold")
+            ax.set_title(f"{letter}. {tissue} {population_label} B cells "
+                         f"(composite, {signature_label})",
+                         fontsize=12, weight="bold")
         ax.set_xlabel("EDSS", fontsize=11)
+        ax.set_ylabel(f"Mean zinc signature ({signature_label})", fontsize=11)
 
-    axes[0, 0].set_ylabel("Mean zinc signature", fontsize=11)
+    if gene:
+        for ax, tissue, letter in zip(axes[1], ["CSF", "PB"], gene_letters):
+            gdf = gene_tables[letter]
+            s = panel_stats[letter]
+            if gdf is None or gdf.empty:
+                ax.text(0.5, 0.5, f"No EDSS-linked {gene} data",
+                        ha="center", va="center", transform=ax.transAxes)
+                ax.set_title(f"{letter}. {tissue} {gene}", fontsize=12, weight="bold")
+                continue
+            _scatter_one_panel(ax, gdf, f"{gene}_raw", tissue,
+                               rho=s["rho"], pval=s["pval"], padj=s["padj"])
+            ax.set_title(f"{letter}. " + ax.get_title(), fontsize=12, weight="bold")
 
-    for ax, tissue, letter in zip(axes[1], ["CSF", "PB"], ["C", "D"]):
-        bdf = df[
-            (df["tissue"] == tissue) &
-            (df["diag_collapsed"].isin(["HC", "Disease"]))
-        ].copy()
+    handles, labels = axes[0][0].get_legend_handles_labels()
+    if len(handles) > 1:
+        axes[0][0].legend(handles, labels, frameon=False, title="Diagnosis")
 
-        sns.boxplot(
-            data=bdf, x="diag_collapsed", y="zinc_signature",
-            order=["HC", "Disease"], hue="diag_collapsed",
-            palette=PAL2, ax=ax, fliersize=0, legend=False,
-        )
-        sns.stripplot(
-            data=bdf, x="diag_collapsed", y="zinc_signature",
-            order=["HC", "Disease"], hue="diag_collapsed",
-            palette=PAL2, dodge=False, ax=ax,
-            linewidth=0.6, edgecolor="black", size=6, alpha=0.9, legend=False,
-        )
+    title = (f"Figure 4. Zinc/MT signature ({signature_label}) vs EDSS "
+             f"in PB and CSF {population_label} B cells")
+    if gene:
+        title += f"\nand {gene} vs EDSS (the one gene surviving panel-wide correction)"
+    fig.suptitle(title, fontsize=15, weight="bold", y=1.10 if n_rows == 1 else 1.04)
 
-        hc = bdf[bdf["diag_collapsed"] == "HC"]["zinc_signature"].dropna()
-        dis = bdf[bdf["diag_collapsed"] == "Disease"]["zinc_signature"].dropna()
-
-        pval = np.nan
-        if len(hc) >= 1 and len(dis) >= 1:
-            _, pval = mannwhitneyu(hc, dis, alternative="two-sided")
-
-        ax.set_title(f"{letter}. {tissue} B cells", fontsize=13, weight="bold")
-        ax.set_xlabel("")
-        ax.set_ylabel("Mean zinc signature", fontsize=11)
-        ax.text(
-            0.5, 0.95, f"HC vs CIS+MS: p={_format_p(pval)}",
-            transform=ax.transAxes, ha="center", va="top", fontsize=10
-        )
-
-    handles, labels = axes[0, 0].get_legend_handles_labels()
-    if handles:
-        axes[0, 0].legend(handles, labels, frameon=False, title="Diagnosis")
-
-    fig.suptitle(
-        "Figure 4. Zinc signature vs EDSS and disease status\nin PB and CSF B cells",
-        fontsize=16, weight="bold", y=0.98,
-    )
-
-    png = fig_dir / "figure4_zinc_signature_EDSS_main_collapsed_pb_csf.png"
-    pdf_fig = fig_dir / "figure4_zinc_signature_EDSS_main_collapsed_pb_csf.pdf"
+    stem = f"figure4_{file_tag}_zinc_signature_EDSS_main_collapsed_pb_csf{file_suffix}"
+    png = fig_dir / f"{stem}.png"
+    pdf_fig = fig_dir / f"{stem}.pdf"
     fig.savefig(png, dpi=300, bbox_inches="tight", pad_inches=0.2)
     fig.savefig(pdf_fig, dpi=300, bbox_inches="tight", pad_inches=0.2)
     plt.close(fig)
+
+    if gene:
+        panel_path = fig_dir / f"Fig4CD_{gene}_vs_EDSS_patient_level_{file_tag}.csv"
+        pd.concat([gene_tables[l] for l in gene_letters if not gene_tables[l].empty],
+                  ignore_index=True).to_csv(panel_path, index=False)
+        print(f"Saved panel C/D data: {panel_path}")
 
     print(f"Saved main figure: {png}")
     print(f"Saved main figure: {pdf_fig}")
 
 
-def make_zinc_boxplots_hc_cis_ms_supp(out: pd.DataFrame, fig_dir) -> None:
+
+def make_zinc_boxplots_hc_ms_supp(
+    out: pd.DataFrame,
+    fig_dir,
+    signature_col: str = "zinc_signature",
+    signature_label: str = "signed",
+    file_suffix: str = "",
+    population_label: str = "CXCR3+",
+    file_tag: str = "CXCR3pos",
+) -> None:
     df = out.copy()
-    df = df[df["zinc_signature"].notna()].copy()
-    box_df = df[df["diagnosis_group"].isin(["HC", "CIS", "MS"])].copy()
+    df = df[df[signature_col].notna()].copy()
+    box_df = df[df["diagnosis_group"].isin(["HC", "MS"])].copy()
+
+    # Compute both tissues' KW p-values first so they can be BH-corrected
+    # together (2 tests, same family: HC/MS comparison per tissue).
+    kw_pvals = {}
+    for tissue in ["CSF", "PB"]:
+        bdf = box_df[box_df["tissue"] == tissue]
+        groups = [bdf[bdf["diagnosis_group"] == g][signature_col].dropna() for g in ["HC", "MS"]]
+        kw_p = np.nan
+        if all(len(g) > 0 for g in groups):
+            _, kw_p = kruskal(*groups)
+        kw_pvals[tissue] = kw_p
+
+    raw = np.array([kw_pvals["CSF"], kw_pvals["PB"]])
+    valid = np.isfinite(raw)
+    kw_padj = {"CSF": np.nan, "PB": np.nan}
+    if valid.sum() > 0:
+        corrected = multipletests(raw[valid], method="fdr_bh")[1]
+        for tissue, p in zip(np.array(["CSF", "PB"])[valid], corrected):
+            kw_padj[tissue] = p
 
     fig, axes = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
     fig.subplots_adjust(wspace=0.3)
@@ -280,39 +515,32 @@ def make_zinc_boxplots_hc_cis_ms_supp(out: pd.DataFrame, fig_dir) -> None:
         bdf = box_df[box_df["tissue"] == tissue].copy()
 
         sns.boxplot(
-            data=bdf, x="diagnosis_group", y="zinc_signature",
-            order=["HC", "CIS", "MS"], hue="diagnosis_group",
+            data=bdf, x="diagnosis_group", y=signature_col,
+            order=["HC", "MS"], hue="diagnosis_group",
             palette=PAL3, ax=ax, fliersize=0, legend=False,
         )
         sns.stripplot(
-            data=bdf, x="diagnosis_group", y="zinc_signature",
-            order=["HC", "CIS", "MS"], hue="diagnosis_group",
+            data=bdf, x="diagnosis_group", y=signature_col,
+            order=["HC", "MS"], hue="diagnosis_group",
             palette=PAL3, dodge=False, ax=ax,
             linewidth=0.6, edgecolor="black", size=6, alpha=0.9, legend=False,
         )
 
-        groups = [
-            bdf[bdf["diagnosis_group"] == g]["zinc_signature"].dropna()
-            for g in ["HC", "CIS", "MS"]
-        ]
-        kw_p = np.nan
-        if all(len(g) > 0 for g in groups):
-            _, kw_p = kruskal(*groups)
-
         ax.set_title(
-            f"{tissue} B cells (KW p={_format_p(kw_p)})",
-            fontsize=13, weight="bold"
+            f"{tissue} {population_label} B cells ({signature_label})\n"
+            f"KW p={_format_p(kw_pvals[tissue])}, padj={_format_p(kw_padj[tissue])}",
+            fontsize=12, weight="bold"
         )
         ax.set_xlabel("")
-        ax.set_ylabel("Mean zinc signature", fontsize=11)
+        ax.set_ylabel(f"Mean zinc signature ({signature_label})", fontsize=11)
 
     fig.suptitle(
-        "Supplementary: zinc signature by HC/CIS/MS diagnosis group",
+        f"Supplementary: zinc signature ({signature_label}) by HC/MS diagnosis group ({population_label} B cells)",
         fontsize=15, weight="bold", y=1.02
     )
 
-    png = fig_dir / "supp_zinc_signature_boxplots_HC_CIS_MS_pb_csf.png"
-    pdf_fig = fig_dir / "supp_zinc_signature_boxplots_HC_CIS_MS_pb_csf.pdf"
+    png = fig_dir / f"supp_zinc_signature_boxplots_HC_MS_{file_tag}_pb_csf{file_suffix}.png"
+    pdf_fig = fig_dir / f"supp_zinc_signature_boxplots_HC_MS_{file_tag}_pb_csf{file_suffix}.pdf"
     fig.savefig(png, dpi=300, bbox_inches="tight", pad_inches=0.2)
     fig.savefig(pdf_fig, dpi=300, bbox_inches="tight", pad_inches=0.2)
     plt.close(fig)
@@ -348,7 +576,184 @@ def build_gene_edss_table(
     return df
 
 
-def _scatter_one_panel(ax, df: pd.DataFrame, gene_col: str, tissue_label: str) -> None:
+def compute_all_gene_tissue_correlations(
+    sub: sc.AnnData,
+    genes: list[str],
+    meta: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Compute Spearman gene-vs-EDSS correlations for every (gene, tissue)
+    combination up front, as ONE family of tests, so they can be
+    BH-corrected together. Without this, the per-gene supplementary PDFs
+    (n_genes x 2 tissues = ~26 tests here) would each report an uncorrected
+    p-value with no acknowledgement of the multiple-comparison exposure
+    across the full panel.
+    """
+    rows = []
+    for gene in genes:
+        for tissue in ["CSF", "PB"]:
+            gdf = build_gene_edss_table(sub, gene, tissue, meta)
+            rho = pval = np.nan
+            n = len(gdf)
+            if n >= 3 and gdf["EDSS"].nunique() >= 2:
+                rho, pval = spearmanr(gdf["EDSS"], gdf[f"{gene}_raw"])
+            rows.append({"gene": gene, "tissue": tissue, "n": n, "rho": rho, "pvalue": pval})
+
+    result = pd.DataFrame(rows)
+    result["padj"] = np.nan
+    valid = result["pvalue"].notna()
+    if valid.sum() > 0:
+        result.loc[valid, "padj"] = multipletests(result.loc[valid, "pvalue"], method="fdr_bh")[1]
+    return result
+
+
+def leave_one_out_correlation(gdf: pd.DataFrame, gene_col: str) -> pd.DataFrame:
+    """
+    Leave-one-out sensitivity check for a Spearman correlation: for each
+    patient, recompute rho/p with that ONE patient excluded, to check
+    whether a significant correlation depends heavily on a single
+    (possibly high-leverage) point -- e.g. a patient sitting alone at an
+    extreme EDSS value.
+
+    This checks robustness of the RAW correlation only; it does not
+    recompute the family-wise BH correction for each dropped-patient
+    subset (that would require rerunning the entire gene x tissue panel
+    once per dropped patient, which changes the correction for every OTHER
+    gene too -- a much heavier and less standard check). Use this
+    alongside, not instead of, the panel-corrected padj already reported by
+    compute_all_gene_tissue_correlations.
+    """
+    rows = []
+    for idx in gdf.index:
+        dropped_id = gdf.loc[idx, "patient_num"]
+        remaining = gdf.drop(index=idx)
+        rho, p = np.nan, np.nan
+        if len(remaining) >= 3 and remaining["EDSS"].nunique() >= 2:
+            rho, p = spearmanr(remaining["EDSS"], remaining[gene_col])
+        rows.append({"dropped_patient": dropped_id, "n_remaining": len(remaining), "rho": rho, "pvalue": p})
+    return pd.DataFrame(rows)
+
+
+def summarize_loo_robustness(
+    loo_df: pd.DataFrame, orig_rho: float, orig_pvalue: float, alpha: float = 0.05
+) -> dict:
+    """
+    Summarize a leave-one-out table: does the significance call (raw p vs
+    alpha) flip when any single patient is dropped? Reports which patient(s)
+    would need to be excluded to flip the result, and the range of rho/p
+    across all leave-one-out subsets, so a single influential point is
+    visible rather than hidden inside a single reported correlation.
+    """
+    valid = loo_df.dropna(subset=["rho", "pvalue"])
+    if valid.empty:
+        return {
+            "orig_rho": orig_rho, "orig_pvalue": orig_pvalue,
+            "n_loo": 0, "robust": None,
+            "rho_min": np.nan, "rho_max": np.nan, "p_min": np.nan, "p_max": np.nan,
+            "flips_on_removing": [],
+        }
+
+    orig_sig = orig_pvalue < alpha
+    flips = valid[(valid["pvalue"] < alpha) != orig_sig]
+
+    return {
+        "orig_rho": orig_rho, "orig_pvalue": orig_pvalue,
+        "n_loo": len(valid),
+        "rho_min": valid["rho"].min(), "rho_max": valid["rho"].max(),
+        "p_min": valid["pvalue"].min(), "p_max": valid["pvalue"].max(),
+        "n_flips": len(flips),
+        "flips_on_removing": flips["dropped_patient"].tolist(),
+        "robust": len(flips) == 0,
+    }
+
+
+def run_loo_check_for_significant_genes(
+    sub: sc.AnnData,
+    corr_table: pd.DataFrame,
+    meta: pd.DataFrame,
+    fig_dir,
+    file_tag: str,
+    padj_threshold: float = 0.05,
+) -> pd.DataFrame:
+    """
+    For every (gene, tissue) that clears the panel-wide BH correction
+    (padj < padj_threshold) in `corr_table`, run the leave-one-out
+    robustness check and save a summary table + per-patient detail table.
+    Prints a plain-language flag for any gene/tissue whose significance
+    depends on a single patient.
+    """
+    summary_path = fig_dir / f"supp_LOO_robustness_summary_significant_genes_{file_tag}.csv"
+    detail_path = fig_dir / f"supp_LOO_robustness_detail_significant_genes_{file_tag}.csv"
+
+    sig_rows = corr_table[corr_table["padj"] < padj_threshold]
+    if sig_rows.empty:
+        # Delete any previous run's LOO output rather than leaving it in
+        # place. An early return that writes nothing leaves a stale file
+        # claiming a robust, significant correlation for a gene that no
+        # longer clears correction -- which has already caused one result
+        # to be read as current when it was not.
+        removed = [p.name for p in (summary_path, detail_path) if p.exists()]
+        for p in (summary_path, detail_path):
+            p.unlink(missing_ok=True)
+        print(f"  [LOO check] No gene x tissue correlations cleared padj < {padj_threshold} "
+              f"-- nothing to robustness-check."
+              + (f" Removed stale output: {removed}" if removed else ""))
+        return pd.DataFrame()
+
+    summary_rows = []
+    detail_rows = []
+    for _, row in sig_rows.iterrows():
+        gene, tissue = row["gene"], row["tissue"]
+        gdf = build_gene_edss_table(sub, gene, tissue, meta)
+        gene_col = f"{gene}_raw"
+        loo_df = leave_one_out_correlation(gdf, gene_col)
+        loo_df["gene"] = gene
+        loo_df["tissue"] = tissue
+        detail_rows.append(loo_df)
+
+        summary = summarize_loo_robustness(loo_df, orig_rho=row["rho"], orig_pvalue=row["pvalue"])
+        summary["gene"] = gene
+        summary["tissue"] = tissue
+        summary["orig_padj"] = row["padj"]
+        summary_rows.append(summary)
+
+        if summary["n_loo"] == 0:
+            print(f"  [LOO check] {gene} ({tissue}): CANNOT ASSESS -- every leave-one-out subset "
+                  f"dropped below the minimum n needed for a Spearman test (n={row['n']} to start with). "
+                  f"Treat the original padj={row['padj']:.3f} result as very low-powered regardless.")
+        elif summary["robust"]:
+            print(f"  [LOO check] {gene} ({tissue}): ROBUST -- significance does not depend on "
+                  f"any single patient (rho range [{summary['rho_min']:.2f}, {summary['rho_max']:.2f}] "
+                  f"across {summary['n_loo']} leave-one-out subsets).")
+        else:
+            print(f"  [LOO check] {gene} ({tissue}): NOT ROBUST -- removing patient(s) "
+                  f"{summary['flips_on_removing']} flips significance (p vs {padj_threshold} threshold). "
+                  f"rho range [{summary['rho_min']:.2f}, {summary['rho_max']:.2f}], "
+                  f"p range [{summary['p_min']:.3f}, {summary['p_max']:.3f}]. "
+                  f"Treat the original padj={row['padj']:.3f} result as fragile, not confirmatory.")
+
+    summary_df = pd.DataFrame(summary_rows)
+    detail_df = pd.concat(detail_rows, ignore_index=True)
+
+    summary_df.to_csv(summary_path, index=False)
+    detail_df.to_csv(detail_path, index=False)
+    print(f"  Saved LOO robustness summary: {summary_path}")
+    print(f"  Saved LOO robustness detail: {detail_path}")
+
+    return summary_df
+
+
+def _scatter_one_panel(
+    ax, df: pd.DataFrame, gene_col: str, tissue_label: str,
+    rho: float | None = None, pval: float | None = None, padj: float | None = None,
+) -> None:
+    """
+    If rho/pval/padj are provided (precomputed via
+    compute_all_gene_tissue_correlations, so they reflect BH correction
+    across the full gene x tissue panel), those are used for the title and
+    fit line. Otherwise falls back to computing them locally (uncorrected --
+    only used if this is called outside the corrected-panel workflow).
+    """
     gene_name = gene_col.replace("_raw", "")
 
     for grp, gdf in df.groupby("diagnosis_group"):
@@ -363,25 +768,34 @@ def _scatter_one_panel(ax, df: pd.DataFrame, gene_col: str, tissue_label: str) -
                 fontsize=8, ha="left", va="bottom"
             )
 
-    rho = pval = np.nan
-    if len(df) >= 3 and df["EDSS"].nunique() >= 2:
-        rho, pval = spearmanr(df["EDSS"], df[gene_col])
+    if rho is None or pval is None:
+        rho = pval = np.nan
+        if len(df) >= 3 and df["EDSS"].nunique() >= 2:
+            rho, pval = spearmanr(df["EDSS"], df[gene_col])
+
+    if np.isfinite(rho) if rho is not None else False:
         z = np.polyfit(df["EDSS"], df[gene_col], 1)
         xs = np.linspace(df["EDSS"].min(), df["EDSS"].max(), 100)
         ax.plot(xs, np.poly1d(z)(xs), linestyle="--", color="black", alpha=0.6)
 
     title = f"{tissue_label} {gene_name}"
-    if np.isfinite(rho):
-        title += f" (ρ={rho:.2f}, p={_format_p(pval)})"
+    if rho is not None and np.isfinite(rho):
+        title += f" (ρ={rho:.2f}, p={_format_p(pval)}"
+        if padj is not None:
+            title += f", padj={_format_p(padj)}"
+        title += ")"
     title += f"\nN={len(df)}"
 
     ax.set_title(title, fontsize=12, weight="bold")
     ax.set_xlabel("EDSS", fontsize=11)
     ax.set_ylabel(f"{tissue_label} {gene_name} (mean log-normalised expr)", fontsize=11)
 
+   # Only label groups when there is more than one: these panels are
+    # MS-only, so a one-entry "Diagnosis" legend carries no information and
+    # overlaps the data.
     handles, labels = ax.get_legend_handles_labels()
-    if handles:
-        ax.legend(frameon=False, title="Diagnosis")
+    if len(set(labels)) > 1:
+        ax.legend(frameon=False, title="Diagnosis", loc="best")
 
 
 def make_gene_two_panel_pdf(
@@ -389,6 +803,9 @@ def make_gene_two_panel_pdf(
     gene: str,
     meta: pd.DataFrame,
     fig_dir,
+    corr_table: pd.DataFrame | None = None,
+    population_label: str = "CXCR3+",
+    file_tag: str = "CXCR3pos",
 ) -> None:
     csf_df = build_gene_edss_table(sub, gene, "CSF", meta)
     pb_df = build_gene_edss_table(sub, gene, "PB", meta)
@@ -397,31 +814,248 @@ def make_gene_two_panel_pdf(
         print(f"Skipped {gene}: no EDSS-linked CSF or PB data")
         return
 
+    def _lookup(tissue: str) -> dict:
+        if corr_table is None:
+            return {"rho": None, "pval": None, "padj": None}
+        row = corr_table[(corr_table["gene"] == gene) & (corr_table["tissue"] == tissue)]
+        if row.empty:
+            return {"rho": None, "pval": None, "padj": None}
+        r = row.iloc[0]
+        return {"rho": r["rho"], "pval": r["pvalue"], "padj": r["padj"]}
+
     gene_col = f"{gene}_raw"
     fig, axes = plt.subplots(1, 2, figsize=(13, 5.5))
     fig.subplots_adjust(wspace=0.35)
 
     if not csf_df.empty:
-        _scatter_one_panel(axes[0], csf_df, gene_col, "CSF")
+        s = _lookup("CSF")
+        _scatter_one_panel(axes[0], csf_df, gene_col, "CSF", rho=s["rho"], pval=s["pval"], padj=s["padj"])
     else:
         axes[0].set_title(f"CSF {gene}\nNo EDSS-linked data", fontsize=12, weight="bold")
         axes[0].set_xlabel("EDSS", fontsize=11)
         axes[0].set_ylabel(f"CSF {gene} (mean log-normalised expr)", fontsize=11)
 
     if not pb_df.empty:
-        _scatter_one_panel(axes[1], pb_df, gene_col, "PB")
+        s = _lookup("PB")
+        _scatter_one_panel(axes[1], pb_df, gene_col, "PB", rho=s["rho"], pval=s["pval"], padj=s["padj"])
     else:
         axes[1].set_title(f"PB {gene}\nNo EDSS-linked data", fontsize=12, weight="bold")
         axes[1].set_xlabel("EDSS", fontsize=11)
         axes[1].set_ylabel(f"PB {gene} (mean log-normalised expr)", fontsize=11)
 
-    fig.suptitle(f"{gene} vs EDSS in CSF and PB", fontsize=15, weight="bold", y=1.02)
+    fig.suptitle(f"{gene} vs EDSS in CSF and PB ({population_label} B cells)", fontsize=15, weight="bold", y=1.02)
 
-    pdf_path = fig_dir / f"supp_{gene}_CSF_PB_vs_EDSS.pdf"
+    pdf_path = fig_dir / f"supp_{gene}_CSF_PB_vs_EDSS_{file_tag}.pdf"
     fig.savefig(pdf_path, dpi=300, bbox_inches="tight", pad_inches=0.2)
     plt.close(fig)
 
     print(f"Saved gene PDF: {pdf_path}")
+
+
+def run_fig4_for_population(
+    adata: sc.AnnData,
+    obs: pd.DataFrame,
+    keep_mask: pd.Series,
+    cfg: dict,
+    genes: list[str],
+    fig_dir,
+    population_label: str,
+    file_tag: str,
+) -> None:
+    """
+    Run the full Figure 4 pipeline (patient-level aggregation, signed/
+    unsigned composite signature, main figure, HC/MS boxplots, per-gene
+    EDSS correlation table + PDFs) for ONE cell population, defined by
+    `keep_mask`. Called twice from main(): once for CXCR3+ B cells (primary,
+    matching Figs 2-3), once for all B cells regardless of CXCR3 status
+    (supplementary, the population this figure originally used).
+
+    All outputs are tagged with `file_tag` so the two populations' files
+    never collide, and all titles use `population_label` so it's always
+    visually obvious which population a given figure represents.
+    """
+    n_cells = int(keep_mask.sum())
+    n_patients = obs.loc[keep_mask, "patient_num"].nunique()
+    print(f"\n=== Population: {population_label} B cells ({file_tag}) -- "
+          f"{n_cells:,} cells, {n_patients} patients ===")
+
+    sub = adata[keep_mask].copy()
+    sub.obs = obs.loc[sub.obs_names].copy()
+
+    expr = get_expression_matrix(sub, genes)
+    df = sub.obs[["dataset", "patient_num", "tissue", "condition", "cxcr3_group"]].copy()
+    df = df.join(expr)
+
+    patient_means = (
+        df.groupby(["dataset", "patient_num", "tissue"])[genes]
+        .mean()
+        .reset_index()
+    )
+
+    # Sign-corrected composite signature is primary (consistent with Fig 2,
+    # which established this for the same kind of disease-severity axis:
+    # +1 for transporters, -1 for metallothioneins, assigned a priori from
+    # biological role -- see compute_gene_signs in stats_utils.py). Plain
+    # unsigned mean kept alongside for the supplementary comparison figure.
+    transporters, mts = load_marker_categories(cfg)
+    gene_signs = compute_gene_signs(transporters, mts)
+    sign_vec = np.array([gene_signs.get(g, 1.0) for g in genes])
+    print(f"Gene signs for composite signature: {gene_signs}")
+
+    patient_means["zinc_signature_unsigned"] = patient_means[genes].mean(axis=1)
+    patient_means["zinc_signature_signed"] = (
+        patient_means[genes].values * sign_vec[np.newaxis, :]
+    ).mean(axis=1)
+    patient_means["zinc_signature"] = patient_means["zinc_signature_signed"]  # primary, for backward compat
+
+    clinical = load_clinical_metadata()
+    check_patient_num_mapping(obs.loc[keep_mask], clinical)
+
+    n_cells_tbl = (
+        df.groupby(["patient_num", "tissue"])
+        .size()
+        .rename("n_cells")
+        .reset_index()
+    )
+
+    out = patient_means.merge(n_cells_tbl, on=["patient_num", "tissue"], how="left")
+    out = out.merge(
+        clinical[["patient", "Diagnosis", "diagnosis_group", "EDSS", "months_from_onset"]],
+        left_on="patient_num",
+        right_on="patient",
+        how="left",
+    )
+
+    out["EDSS"] = pd.to_numeric(out["EDSS"], errors="coerce")
+    out["months_from_onset"] = pd.to_numeric(out["months_from_onset"], errors="coerce")
+    out = out.sort_values(["tissue", "diagnosis_group", "dataset", "patient_num"])
+
+    # Output folder structure: fig_dir/<file_tag>/main/ and .../supp/ --
+    # separates the two populations (CXCR3pos vs AllBcells) AND separates
+    # the main figure from supplementary outputs within each, so neither
+    # dimension has to be inferred from filename prefixes alone.
+    population_dir = Path(fig_dir) / file_tag
+    main_dir = population_dir / "main"
+    supp_dir = population_dir / "supp"
+    main_dir.mkdir(parents=True, exist_ok=True)
+    supp_dir.mkdir(parents=True, exist_ok=True)
+
+    summary_path = main_dir / f"patient_level_zinc_edss_{file_tag}_pb_csf.csv"
+    out.to_csv(summary_path, index=False)
+    print(f"Saved summary: {summary_path}")
+
+    # Panel-specific CSVs for Fig 4 (main figure panel data -> main_dir)
+    df_4A = out[
+        (out["tissue"] == "CSF")
+        & out["diagnosis_group"].isin(["MS"])
+        & out["zinc_signature"].notna()
+        & out["EDSS"].notna()
+    ][["patient_num", "diagnosis_group", "tissue", "EDSS", "zinc_signature", "n_cells"]]
+    df_4A.to_csv(main_dir / f"Fig4A_CSF_zinc_signature_vs_EDSS_patient_level_{file_tag}.csv",
+                 index=False)
+
+    df_4B = out[
+        (out["tissue"] == "PB")
+        & out["diagnosis_group"].isin(["MS"])
+        & out["zinc_signature"].notna()
+        & out["EDSS"].notna()
+    ][["patient_num", "diagnosis_group", "tissue", "EDSS", "zinc_signature", "n_cells"]]
+    df_4B.to_csv(main_dir / f"Fig4B_PB_zinc_signature_vs_EDSS_patient_level_{file_tag}.csv",
+                 index=False)
+
+    # Panels C/D (HC vs MS) are not part of this figure any more -- Figure 2
+    # reports that comparison. Their CSVs, and the supplementary boxplot data
+    # for the same comparison, are only written if explicitly re-enabled.
+    if EMIT_HC_VS_MS_PANELS:
+        df_4C = out[
+            (out["tissue"] == "CSF")
+            & out["diagnosis_group"].isin(["HC", "MS"])
+            & out["zinc_signature"].notna()
+        ][["patient_num", "diagnosis_group", "tissue", "zinc_signature", "n_cells"]]
+        df_4C.to_csv(main_dir / f"Fig4C_CSF_HC_vs_MS_zinc_signature_patient_level_{file_tag}.csv",
+                     index=False)
+
+        df_4D = out[
+            (out["tissue"] == "PB")
+            & out["diagnosis_group"].isin(["HC", "MS"])
+            & out["zinc_signature"].notna()
+        ][["patient_num", "diagnosis_group", "tissue", "zinc_signature", "n_cells"]]
+        df_4D.to_csv(main_dir / f"Fig4D_PB_HC_vs_MS_zinc_signature_patient_level_{file_tag}.csv",
+                     index=False)
+
+        # Supplementary boxplot's underlying data (filename already says "FigSx") -> supp_dir
+        box_df = out[
+            out["diagnosis_group"].isin(["HC", "MS"])
+            & out["zinc_signature"].notna()
+        ][["patient_num", "diagnosis_group", "tissue", "zinc_signature", "n_cells"]]
+        box_df.to_csv(supp_dir / f"FigSx_HC_MS_zinc_signature_patient_level_{file_tag}.csv",
+                      index=False)
+
+    # NOTE ON ORDER: the per-gene correlation table is computed BEFORE the
+    # main figure, because panels C/D are selected from it (whichever gene
+    # clears panel-wide BH correction). Drawing the figure first would mean
+    # hard-coding a gene name, which is exactly how a stale result gets
+    # displayed after it stops being significant.
+    meta = out[["patient_num", "diagnosis_group", "EDSS", "tissue"]].drop_duplicates()
+
+    corr_table = compute_all_gene_tissue_correlations(sub, genes, meta)
+    corr_table_path = supp_dir / f"supp_gene_EDSS_correlations_all_genes_BHcorrected_{file_tag}.csv"
+    corr_table.to_csv(corr_table_path, index=False)
+    print(f"Saved per-gene EDSS correlation table (BH-corrected across "
+          f"{len(corr_table)} gene x tissue tests): {corr_table_path}")
+    n_sig = int((corr_table["padj"] < 0.05).sum())
+    print(f"  {n_sig}/{len(corr_table)} gene x tissue correlations significant "
+          f"after correction (padj < 0.05)")
+
+    # Genes for panels C/D: selected, never hard-coded. Ordered by raw p so
+    # the strongest is drawn if more than one survives.
+    sig_genes = (corr_table[corr_table["padj"] < 0.05]
+                 .sort_values("pvalue")["gene"].drop_duplicates().tolist())
+    if sig_genes:
+        print(f"  Figure 4 panels C/D will show: {sig_genes[0]}")
+    else:
+        print("  No gene cleared correction -- Figure 4 will be the 2-panel "
+              "composite figure only.")
+
+    # Main figure: sign-corrected composite (primary) -> main_dir
+    make_zinc_vs_edss_main_collapsed(
+        out, main_dir, signature_col="zinc_signature", signature_label="signed",
+        file_suffix="", population_label=population_label, file_tag=file_tag,
+        sub=sub, meta=meta, corr_table=corr_table, gene_panels=sig_genes,
+    )
+    # Boxplot is conceptually supplementary regardless of signed/unsigned -> supp_dir.
+    # Same HC-vs-MS comparison as old Fig 4C/D and as Figure 2C/D; off by default.
+    if EMIT_HC_VS_MS_PANELS:
+        make_zinc_boxplots_hc_ms_supp(
+            out, supp_dir, signature_col="zinc_signature", signature_label="signed",
+            file_suffix="", population_label=population_label, file_tag=file_tag,
+        )
+
+    # Supplementary: unsigned composite, for direct comparison against the
+    # signed version above (same rationale as Figs 2-3) -> supp_dir, even
+    # though it's generated by the same function as the main figure above,
+    # since this specific (unsigned) version is the supplementary one.
+    make_zinc_vs_edss_main_collapsed(
+        out, supp_dir, signature_col="zinc_signature_unsigned", signature_label="unsigned",
+        file_suffix="_UNSIGNED", population_label=population_label, file_tag=file_tag,
+    )
+    if EMIT_HC_VS_MS_PANELS:
+        make_zinc_boxplots_hc_ms_supp(
+            out, supp_dir, signature_col="zinc_signature_unsigned", signature_label="unsigned",
+            file_suffix="_UNSIGNED", population_label=population_label, file_tag=file_tag,
+        )
+
+    # Leave-one-out robustness check for anything that cleared correction --
+    # a corrected p-value can still be driven by a single high-leverage
+    # patient (e.g. one person alone at an extreme EDSS value); this checks
+    # for that directly rather than reporting padj at face value.
+    run_loo_check_for_significant_genes(sub, corr_table, meta, supp_dir, file_tag=file_tag)
+
+    for gene in genes:
+        make_gene_two_panel_pdf(
+            sub=sub, gene=gene, meta=meta, fig_dir=supp_dir, corr_table=corr_table,
+            population_label=population_label, file_tag=file_tag,
+        )
 
 
 def main() -> None:
@@ -441,57 +1075,37 @@ def main() -> None:
     obs["cxcr3_group"] = obs["cxcr3_group"].astype(str)
     obs = harmonise_patient_num(obs)
 
-    keep = (
+    keep_all_bcells = (
         obs["dataset"].isin(TARGET_DATASETS)
         & obs["tissue"].isin(["PB", "CSF"])
         & obs["patient_num"].notna()
         & (~obs["patient_num"].isin(EXCLUDE_TREATED))
     )
-    sub = adata[keep].copy()
-    sub.obs = obs.loc[sub.obs_names].copy()
+    keep_cxcr3pos = keep_all_bcells & (obs["cxcr3_group"] == "CXCR3+")
 
-    expr = get_expression_matrix(sub, genes)
-    df = sub.obs[["dataset", "patient_num", "tissue", "condition", "cxcr3_group"]].copy()
-    df = df.join(expr)
+    n_cells_all = int(keep_all_bcells.sum())
+    n_cells_cxcr3 = int(keep_cxcr3pos.sum())
+    n_patients_all = obs.loc[keep_all_bcells, "patient_num"].nunique()
+    n_patients_cxcr3 = obs.loc[keep_cxcr3pos, "patient_num"].nunique()
+    print(f"CXCR3+ restriction: {n_cells_cxcr3:,}/{n_cells_all:,} cells retained "
+          f"({100*n_cells_cxcr3/max(n_cells_all,1):.1f}%); "
+          f"{n_patients_cxcr3}/{n_patients_all} patients retained "
+          f"(a patient can be lost entirely if they have zero CXCR3+ B cells "
+          f"in a given tissue -- check EDSS/HC-vs-disease panels for reduced n).")
 
-    patient_means = (
-        df.groupby(["dataset", "patient_num", "tissue"])[genes]
-        .mean()
-        .reset_index()
-    )
-    patient_means["zinc_signature"] = patient_means[genes].mean(axis=1)
-
-    clinical = load_clinical_metadata()
-
-    n_cells = (
-        df.groupby(["patient_num", "tissue"])
-        .size()
-        .rename("n_cells")
-        .reset_index()
+    # PRIMARY: CXCR3+ B cells, matching Figures 2-3's population.
+    run_fig4_for_population(
+        adata, obs, keep_cxcr3pos, cfg, genes, fig_dir,
+        population_label="CXCR3+", file_tag="CXCR3pos",
     )
 
-    out = patient_means.merge(n_cells, on=["patient_num", "tissue"], how="left")
-    out = out.merge(
-        clinical[["patient", "Diagnosis", "diagnosis_group", "EDSS", "months_from_onset"]],
-        left_on="patient_num",
-        right_on="patient",
-        how="left",
+    # SUPPLEMENTARY: all B cells regardless of CXCR3 status -- the
+    # population this figure originally used, kept for direct comparison
+    # against the CXCR3+-restricted primary result above.
+    run_fig4_for_population(
+        adata, obs, keep_all_bcells, cfg, genes, fig_dir,
+        population_label="All", file_tag="AllBcells",
     )
-
-    out["EDSS"] = pd.to_numeric(out["EDSS"], errors="coerce")
-    out["months_from_onset"] = pd.to_numeric(out["months_from_onset"], errors="coerce")
-    out = out.sort_values(["tissue", "diagnosis_group", "dataset", "patient_num"])
-
-    summary_path = fig_dir / "patient_level_zinc_edss_pb_csf.csv"
-    out.to_csv(summary_path, index=False)
-    print(f"Saved summary: {summary_path}")
-
-    make_zinc_vs_edss_main_collapsed(out, fig_dir)
-    make_zinc_boxplots_hc_cis_ms_supp(out, fig_dir)
-
-    meta = out[["patient_num", "diagnosis_group", "EDSS", "tissue"]].drop_duplicates()
-    for gene in genes:
-        make_gene_two_panel_pdf(sub=sub, gene=gene, meta=meta, fig_dir=fig_dir)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,7 @@
+# FigS6 (output/figures/supp/FigS6.py)
+# 2026-09-21T20:31:49.591601
+
+Traceback (most recent call last):
+  File "/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/FigS6.py", line 61, in <module>
+    import scanpy as sc
+ModuleNotFoundError: No module named 'scanpy'

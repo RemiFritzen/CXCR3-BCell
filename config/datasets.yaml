@@ -7,6 +7,52 @@
 # Paths are reconstructed as:  data/processed/<DATASET_NAME>/<PATIENT_KEY>.h5ad
 # No explicit path field is needed unless the file deviates from this convention.
 
+gating:
+ 
+  # Optional: override the marker lists in `markers:` for gating specifically.
+  # Leave commented out to use the `markers:` lists (recommended -- one source
+  # of truth, and it matches the Methods).
+  #
+  # bcell_markers: [CD19, MS4A1, CD79A, CD79B, CD74, IGHM, IGHD, IGKC, IGLC2]
+  # nonb_markers:  [CD3D, CD3E, TRAC, ...]
+ 
+  nonb_filter:
+ 
+    # Master switch. false == step 2 never runs, and the log says so
+    # explicitly ("Step2: SKIPPED"). Set true only once you have confirmed
+    # which gate produced the published numbers.
+    enabled: false
+ 
+    # Fraction of B-marker-positive cells KEPT. 0.7 drops the top 30% by
+    # non-B score -- the published setting, if the filter ran at all.
+    #
+    # This is a QUANTILE, not a threshold: it removes exactly (1 - keep_frac)
+    # of cells whether or not any are contaminated. At 0.7 that is ~30%, well
+    # above the expected 10x multiplet rate (~4-8%), so describe it as a
+    # conservative purity filter, never as doublet removal.
+    keep_frac: 0.7
+ 
+    # Population over which the quantile is computed.
+    #   dataset -- one threshold per dataset, pooling PB+CSF and MS+HC.
+    #              Original behaviour. Removes (1 - keep_frac) of the dataset
+    #              but NOT of each arm: if CSF carries more ambient non-B
+    #              signal, more CSF cells are dropped, putting a
+    #              compartment-biased filter upstream of the PB-vs-CSF test.
+    #   tissue  -- one threshold per tissue; PB and CSF each lose the same
+    #              fraction by construction. The safer choice if the
+    #              per-stratum removal rates come back uneven.
+    #   sample  -- one threshold per patient x tissue.
+    scope: dataset
+ 
+    # How the non-B score is computed.
+    #   mean_raw      -- mean raw count across non-B markers. Original.
+    #                    Computed pre-normalisation, so it scales with library
+    #                    depth: part of what it removes is just deep cells.
+    #   frac_of_total -- same signal as a fraction of the cell's total counts,
+    #                    which removes that depth confound. Use as a
+    #                    sensitivity check, not as a silent switch.
+    score_mode: mean_raw
+
 datasets:
 
   # --------------------------------------------------------------------------
@@ -18,80 +64,104 @@ datasets:
     patient_col: patient
     tissue_col: tissue
     celltype_col: celltype
-    keep_conditions: [MS, HC, CIS]
+    keep_conditions: [MS, HC]
     patients:
       CSF_2:
         condition: HC
+        sex: M
       CSF_3:
         condition: HC
+        sex: F
       CSF_6:
         condition: MS
+        sex: M
       CSF_7:
         condition: MS
+        sex: M
       CSF_8:
         condition: MS
+        sex: M
       CSF_9:
         condition: MS
+        sex: F
       CSF_10:
         condition: MS
+        sex: F
       CSF_16:
         condition: MS
-      # CSF_18:
-      #   condition: MS -treated
-      # CSF_21:
-      #   condition: UVeitis
+        sex: M
       CSF_22:
-        condition: CIS
+        condition: MS
+        sex: F
       CSF_24:
         condition: MS
+        sex: F
       CSF_25:
         condition: MS
+        sex: F
       CSF_27:
         condition: MS
+        sex: F
       CSF_28:
         condition: MS
+        sex: F
       CSF_29:
         condition: MS
+        sex: M
       CSF_31:
-        condition: CIS
+        condition: MS
+        sex: F
       CSF_32:
         condition: HC
+        sex: M
       PB_2:
         condition: HC
+        sex: M
       PB_3:
         condition: HC
+        sex: F
       PB_6:
         condition: MS
+        sex: M
       PB_7:
         condition: MS
+        sex: M
       PB_8:
         condition: MS
+        sex: M
       PB_9:
         condition: MS
+        sex: F
       PB_10:
         condition: MS
+        sex: F
       PB_16:
         condition: MS
-      # PB_18:
-      #   condition: MS-treated
-      # PB_21:
-      #   condition: Uveitis
+        sex: M
       PB_22:
-        condition: CIS
+        condition: MS
+        sex: F
       PB_24:
         condition: MS
+        sex: F
       PB_25:
         condition: MS
+        sex: F
       PB_27:
         condition: MS
+        sex: F
       PB_28:
         condition: MS
+        sex: F
       PB_29:
         condition: MS
+        sex: M
       PB_31:
-        condition: CIS
+        condition: MS
+        sex: F
       PB_32:
         condition: HC
+        sex: M
 
   # --------------------------------------------------------------------------
   # GSE138266  -- Global .h5ad; patient annotations already embedded in .obs
@@ -105,48 +175,72 @@ datasets:
     patients:
         MS19270_CSF:
           condition: MS
+          sex: F
         MS19270_PB:
           condition: MS
+          sex: F
         MS49131_CSF:
           condition: MS
+          sex: F
         MS49131_PB:
           condition: MS
+          sex: F
         MS58637_CSF:
           condition: MS
+          sex: M
         MS60249_CSF:
           condition: MS
+          sex: F
         MS60249_PB:
           condition: MS
+          sex: F
         MS71658_CSF:
           condition: MS
+          sex: F
         MS71658_PB:
           condition: MS
+          sex: F
         MS74594_CSF:
           condition: MS
+          sex: M
         MS74594_PB:
           condition: MS
-        PST45044_CSF:
+          sex: M
+        PTC45044_CSF:
           condition: HC
-        PST45044_PB:
-          condition: HC
+          sex: F
         PST83775_CSF:
           condition: HC
+          sex: M
         PST83775_PB:
           condition: HC
+          sex: M
         PST95809_PB:
           condition: HC
+          sex: F
+        PST95809_CSF:
+          condition: HC
+          sex: F
         PTC32190_CSF:
           condition: HC
+          sex: M
         PTC32190_PB:
           condition: HC
+          sex: M
         PTC41540_CSF:
           condition: HC
+          sex: F
         PTC41540_PB:
           condition: HC
+          sex: F
         PTC85037_CSF:
           condition: HC
+          sex: F
         PTC85037_PB:
           condition: HC
+          sex: F
+        
+          
 
   # # --------------------------------------------------------------------------
   # # GSE239626  -- CITE-seq global .h5ad; no per-patient files patients 
@@ -181,6 +275,7 @@ markers:
     - MT1F
     - MT1X
     - MT2A
+
   # Genes to exclude from older panels because they are essentially off
   # in CXCR3+ PB and CSF B cells in the merged dataset:
   exclude_artefacts:
@@ -196,11 +291,6 @@ markers:
     - MS4A1
     - CD79A
     - CD79B
-    - CD74
-    - IGHM
-    - IGHD
-    - IGKC
-    - IGLC2
   nonb_markers:
     # T / NK
     - CD3D

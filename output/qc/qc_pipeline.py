@@ -40,7 +40,7 @@ np.random.seed(0)
 # ----------------------------------------------------------------------------
 # Paths
 # ----------------------------------------------------------------------------
-BASE = "/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3"
+BASE = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 PROC = os.path.join(BASE, "data", "processed")
 QC_DIR = os.path.join(BASE, "output", "qc")
 PLOT_DIR = os.path.join(QC_DIR, "plots")
@@ -97,23 +97,22 @@ def discover_samples():
 # QC metric computation
 # ----------------------------------------------------------------------------
 def compute_qc_metrics(adata):
-    """Ensure n_genes_by_counts, total_counts, pct_counts_mt exist on .obs."""
-    X = adata.X
-    needs = not all(c in adata.obs.columns for c in
-                    ["n_genes_by_counts", "total_counts", "pct_counts_mt"])
-    if needs:
-        adata.var["mt"] = adata.var_names.str.upper().str.startswith("MT-")
-        sc.pp.calculate_qc_metrics(adata, qc_vars=["mt"], inplace=True,
-                                   percent_top=None, log1p=False)
-    # always (re)derive pct_counts_mt if mt genes exist but col missing
-    if "pct_counts_mt" not in adata.obs.columns:
-        adata.var["mt"] = adata.var_names.str.upper().str.startswith("MT-")
-        sc.pp.calculate_qc_metrics(adata, qc_vars=["mt"], inplace=True,
-                                   percent_top=None, log1p=False)
+    """Always (re)derive QC metrics so every sample uses the same code path.
+    Stored values may come from an older or failed run -- CSF_10 carried a
+    pct_counts_mt column of zeros that was otherwise silently trusted."""
+    stale = ("n_genes_by_counts", "total_counts", "pct_counts_mt",
+             "total_counts_mt", "log1p_total_counts_mt")
+    adata.obs.drop(columns=[c for c in stale if c in adata.obs.columns],
+                   inplace=True)
+    adata.var["mt"] = np.asarray(
+        adata.var_names.str.upper().str.startswith("MT-"), dtype=bool)
+    sc.pp.calculate_qc_metrics(adata, qc_vars=["mt"], inplace=True,
+                               percent_top=None, log1p=False)
     return adata
 
-
 def qc_flags(row):
+    if any(row[k] != row[k] for k in ("median_genes", "median_counts")):
+        return {"cells": "FAIL", "genes": "FAIL", "counts": "FAIL", "mito": "FAIL"}
     flags = {}
     # cells
     if row["n_cells"] < THRESH["min_cells"]:

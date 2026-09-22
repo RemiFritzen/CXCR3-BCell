@@ -1,0 +1,95 @@
+# fig2 (output/figures/fig2_cxcr3_zinc/fig2.py)
+# 2026-09-20T16:01:23.136732
+
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+Gene classes for colouring: {'SLC39A1': 'ZIP', 'SLC39A4': 'ZIP', 'SLC39A6': 'ZIP', 'SLC39A7': 'ZIP', 'SLC39A9': 'ZIP', 'SLC39A10': 'ZIP', 'SLC39A11': 'ZIP', 'SLC39A14': 'ZIP', 'SLC30A1': 'ZnT', 'SLC30A9': 'ZnT', 'MT1E': 'MT', 'MT1F': 'MT', 'MT1X': 'MT', 'MT2A': 'MT'}
+
+Running patient-level DE: PB CXCR3+ MS vs HC …
+    min_pct=10%: 114/2014 genes retained (5 curated zinc/MT gene(s) kept despite low prevalence)
+    PB CXCR3+ patients: 8 HC, 18 MS (2731 cells total)
+      HC CXCR3+ cells/patient: median=18, min=8, max=183 (n=8 patients)
+      MS CXCR3+ cells/patient: median=101, min=21, max=399 (n=18 patients)
+  114 genes in PB DE table
+
+Running patient-level DE: CSF CXCR3+ MS vs HC …
+    min_pct=15%: 56/2014 genes retained (12 curated zinc/MT gene(s) kept despite low prevalence)
+    CSF CXCR3+ patients: 9 HC, 19 MS (3169 cells total)
+      HC CXCR3+ cells/patient: median=27, min=15, max=129 (n=9 patients)
+      MS CXCR3+ cells/patient: median=81, min=26, max=573 (n=19 patients)
+  56 genes in CSF DE table
+
+  === Outlier robustness: CSF, signed signature ===
+    Full-sample Mann-Whitney p = 0.001386
+    Leave-one-out p range: 0.0003126 to 0.00189
+    Worst case: excluding CSF_32 (HC, signature = -0.153) gives p = 0.00189
+    -> significant with any single patient removed
+    Tukey fence flags PTC45044_CSF (HC, signature = -0.327)
+    Excluding 1 flagged value(s): p = 0.00189 -> result holds
+
+  === Outlier robustness: PB, signed signature ===
+    Full-sample Mann-Whitney p = 0.04699
+    Leave-one-out p range: 0.02053 to 0.1101
+    Worst case: excluding PST95809_PB (HC, signature = -0.363) gives p = 0.1101
+    -> [CAUTION] significance lost when 16 particular patient(s) removed; the result is carried by individual observations and must be reported as such
+    No values beyond the 1.5*IQR fence in either group
+
+  === Dataset confounding check: PB, signed signature ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=+0.064, Mann-Whitney p=0.146
+    [GSE138266] n=5 HC, 5 MS: median(MS-HC)=+0.053, Mann-Whitney p=0.548
+    Direction is consistent across all testable datasets.
+    Interaction test (condition x dataset): p=0.714 (no significant interaction -- effect is consistent across datasets)
+
+  === Dataset confounding check: CSF, signed signature ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=+0.058, Mann-Whitney p=0.0821
+    [GSE138266] n=6 HC, 6 MS: median(MS-HC)=+0.070, Mann-Whitney p=0.0152
+    Direction is consistent across all testable datasets.
+    Interaction test (condition x dataset): p=0.815 (no significant interaction -- effect is consistent across datasets)
+
+Signed vs unsigned signature p-values (sanity check -- both should point the same direction even if only one reaches significance):
+  PB : signed p=4.699e-02   unsigned p=3.670e-01
+  CSF: signed p=1.386e-03   unsigned p=4.371e-02
+PB bar genes  (14/14 of curated panel): ['SLC39A11', 'SLC30A9', 'SLC39A10', 'SLC39A9', 'SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A14', 'SLC30A1', 'MT1E', 'SLC39A7', 'MT1X', 'MT2A', 'MT1F']
+CSF bar genes (14/14 of curated panel): ['SLC39A11', 'SLC30A9', 'SLC39A10', 'SLC39A9', 'SLC39A6', 'SLC39A1', 'SLC39A7', 'SLC30A1', 'SLC39A14', 'MT1E', 'MT1F', 'SLC39A4', 'MT1X', 'MT2A']
+  [PB] zinc/MT genes significant: 0/14 (panel-restricted FDR, used for bar-chart stars) vs 0/14 (genome-wide FDR, used for volcano)
+  [PB] full per-gene table (verify star count against these numbers):
+    gene    log2FC   pvalue     padj  padj_zinc_panel
+SLC39A11  0.150808 0.100653 0.370142         0.281828
+ SLC30A9  0.140360 0.039487 0.264793         0.279888
+SLC39A10  0.093231 0.079968 0.343886         0.279888
+ SLC39A9  0.086327 0.062549 0.339551         0.279888
+ SLC39A1  0.053119 0.303226 0.576130         0.530646
+ SLC39A4  0.044225 0.079912 0.343886         0.279888
+ SLC39A6  0.017788 1.000000 1.000000         1.000000
+SLC39A14  0.009275 0.236296 0.531680         0.472591
+ SLC30A1 -0.005912 0.712311 0.870562         0.831029
+    MT1E -0.024933 0.676714 0.846547         0.831029
+ SLC39A7 -0.033712 0.133548 0.442146         0.311612
+    MT1X -0.059662 0.604919 0.792653         0.831029
+    MT2A -0.080132 1.000000 1.000000         1.000000
+    MT1F -0.095235 0.359235 0.624466         0.558810
+  [CSF] zinc/MT genes significant: 4/14 (panel-restricted FDR, used for bar-chart stars) vs 1/14 (genome-wide FDR, used for volcano)
+  [CSF] full per-gene table (verify star count against these numbers):
+    gene    log2FC   pvalue     padj  padj_zinc_panel
+SLC39A11  0.194019 0.000749 0.041945         0.010486
+ SLC30A9  0.137912 0.005847 0.109139         0.027285
+SLC39A10  0.126425 0.140009 0.290389         0.245016
+ SLC39A9  0.075740 0.022586 0.140534         0.052700
+ SLC39A6  0.066451 0.030408 0.142008         0.060815
+ SLC39A1  0.050828 0.019443 0.140534         0.052700
+ SLC39A7  0.037751 0.168164 0.314341         0.261588
+ SLC30A1  0.032087 0.012384 0.115585         0.043344
+SLC39A14  0.025301 0.002223 0.062251         0.015563
+    MT1E  0.003065 0.640223 0.717050         0.767624
+    MT1F -0.000591 0.767878 0.826946         0.805714
+ SLC39A4 -0.033300 0.228062 0.375631         0.319287
+    MT1X -0.071344 0.657963 0.722469         0.767624
+    MT2A -0.073190 0.805714 0.851320         0.805714
+[CSF] PATIENT-LEVEL box plot: n=9 HC / 19 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=1.386e-03 -> **
+[PB] PATIENT-LEVEL box plot: n=8 HC / 18 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=4.699e-02 -> *
+[PB] PATIENT-LEVEL box plot: n=8 HC / 18 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=3.670e-01 -> ns
+[CSF] PATIENT-LEVEL box plot: n=9 HC / 19 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=4.371e-02 -> *
+
+Saved: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig2_cxcr3_zinc/Fig2_CXCR3pos_PB_CSF_MS_vs_HC_4panel.png
+Saved: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig2_cxcr3_zinc/Fig2_CXCR3pos_PB_CSF_MS_vs_HC_4panel.pdf
+Saved supplementary volcanoes and unsigned-signature comparison in: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig2_cxcr3_zinc/supp

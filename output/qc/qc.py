@@ -10,7 +10,6 @@ from __future__ import annotations
 import pathlib
 
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import scanpy as sc
 
@@ -19,13 +18,13 @@ from data_io import load_cfg
 
 plt.rcParams.update({
     "font.family": "sans-serif",
-    "font.size": 9,
-    "axes.labelsize": 9,
-    "axes.titlesize": 10,
+    "font.size": 12,
+    "axes.labelsize": 11,
+    "axes.titlesize": 12,
     "axes.titleweight": "bold",
-    "xtick.labelsize": 8,
-    "ytick.labelsize": 8,
-    "legend.fontsize": 8,
+    "xtick.labelsize": 9,
+    "ytick.labelsize": 9,
+    "legend.fontsize": 9,
     "pdf.fonttype": 42,
     "ps.fonttype": 42,
 })
@@ -102,7 +101,7 @@ def qc_cells_per_sample(adata: sc.AnnData, qc_dir: pathlib.Path) -> None:
             continue
 
         tissues = sorted(adata.obs["tissue"].unique())
-        fig, ax = plt.subplots(1, 1, figsize=(6, 4))
+        fig, ax = plt.subplots(1, 1, figsize=(4, 3))
 
         positions = []
         labels = []
@@ -157,7 +156,7 @@ def qc_cells_per_sample(adata: sc.AnnData, qc_dir: pathlib.Path) -> None:
 
 def qc_cells_total_per_tissue(adata: sc.AnnData, qc_dir: pathlib.Path) -> None:
     df = adata.obs.groupby("tissue").size().reset_index(name="n_cells")
-    fig, ax = plt.subplots(1, 1, figsize=(4, 4))
+    fig, ax = plt.subplots(1, 1, figsize=(2, 3))
     ax.bar(df["tissue"], df["n_cells"], color="#4C78A8")
     ax.set_ylabel("cells")
     ax.set_title("Total cells per tissue")
@@ -226,7 +225,7 @@ def qc_zinc_signature(adata: sc.AnnData, qc_dir: pathlib.Path) -> None:
     df_csf = compute_cell_signature(adata, zinc_genes, tissue="CSF")
 
     for label, df in (("PB", df_pb), ("CSF", df_csf)):
-        fig, ax = plt.subplots(1, 1, figsize=(5, 4))
+        fig, ax = plt.subplots(1, 1, figsize=(3, 3))
         ax.hist(df["zinc_signature"], bins=40, alpha=0.7, color="#4C78A8")
         ax.set_xlabel("zinc signature")
         ax.set_ylabel("cells")

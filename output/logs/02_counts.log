@@ -1,0 +1,12 @@
+# counts (cell_numbers.py)
+# 2026-09-20T15:54:25.143158
+
+[info] merged object: 40199 cells x 2014 genes
+[info] obs columns: ['tissue', 'condition', 'dataset', 'patient', 'sex', 'patient_file', 'cxcr3_group', 'barcode', 'donor', 'gsm', 'sample', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'source_dataset']
+[diag] Figure S1 of the paper reports 38,935 B cells. This object has 40199.
+[info] using columns: {'dataset': 'dataset', 'patient': 'patient', 'tissue': 'tissue', 'condition': 'condition', 'cxcr3': 'cxcr3_group'}
+
+[done] /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/per_sample_bcell_counts.csv  (54 sample rows)
+[done] /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/results/supplement_per_patient_counts.csv  (28 patient rows)
+[check] total cells counted: 40199
+[info] patients present in one compartment only: ['MS58637', 'PTC45044']

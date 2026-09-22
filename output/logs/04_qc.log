@@ -1,0 +1,21 @@
+# qc (output/qc/qc.py)
+# 2026-09-20T16:01:05.159219
+
+[qc] obs columns: ['tissue', 'condition', 'dataset', 'patient', 'sex', 'patient_file', 'cxcr3_group', 'barcode', 'donor', 'gsm', 'sample', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'source_dataset']
+[qc] n_genes_by_counts: min=202.0, max=5940.0, n_nonzero=11573, n_na=28626
+[qc] n_genes: NOT PRESENT
+[qc] n_counts: NOT PRESENT
+[qc] total_counts: min=676.0, max=52599.0, n_nonzero=11573, n_na=28626
+[qc] pct_counts_mt: min=0.0, max=19.626169204711914, n_nonzero=11568, n_na=28626
+[qc] percent_mito: NOT PRESENT
+[qc] pct_mito: NOT PRESENT
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_n_genes_by_counts_by_tissue.pdf
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_total_counts_by_tissue.pdf
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_pct_counts_mt_by_tissue.pdf
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc.py:172: FutureWarning: The method obsm_keys is deprecated and will be removed in the future. Use obsm instead of obsm_keys. (e.g. `k in adata.obsm` or `adata.obsm.keys() | {'u'}`)
+  if "X_umap" not in adata.obsm_keys():
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_n_genes_by_counts_by_tissue.pdf
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_total_counts_by_tissue.pdf
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_pct_counts_mt_by_tissue.pdf
+[qc] Wrote /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc/qc_cells_total_per_tissue.pdf
+[qc] Wrote QC outputs to /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/qc
