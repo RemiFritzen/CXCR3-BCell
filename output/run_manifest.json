@@ -1,9 +1,9 @@
 {
-  "started_utc": "2026-09-22T20:23:32.606767+00:00",
-  "finished_utc": "2026-09-22T20:24:28.042036+00:00",
-  "total_seconds": 55.4,
+  "started_utc": "2026-09-22T20:50:22.395130+00:00",
+  "finished_utc": "2026-09-22T21:01:07.295209+00:00",
+  "total_seconds": 644.9,
   "git": {
-    "commit": "4ac6c80491b5e7b61b9bdc12b0e93316dd25e284",
+    "commit": "2dfe1976266990e7ba7e98bc08795557a2b790a9",
     "branch": "main",
     "describe": "corrigendum-v1-dirty",
     "uncommitted_changes": true
@@ -23,16 +23,685 @@
     "sklearn": "1.8.0",
     "yaml": "6.0.3"
   },
-  "command": "run_all.py --only fig4 --skip-checks",
-  "preflight": null,
+  "command": "run_all.py",
+  "preflight": {
+    "ok": true,
+    "problems": [],
+    "samples": [
+      {
+        "sample": "CSF_10",
+        "dataset": "GSE133028",
+        "n_obs": 2692,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "c1a3c2fc88de"
+      },
+      {
+        "sample": "CSF_16",
+        "dataset": "GSE133028",
+        "n_obs": 7092,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "7f9e95152c5a"
+      },
+      {
+        "sample": "CSF_18",
+        "dataset": "GSE133028",
+        "n_obs": 7452,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "773b81fda010"
+      },
+      {
+        "sample": "CSF_2",
+        "dataset": "GSE133028",
+        "n_obs": 515,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "8b62d3341018"
+      },
+      {
+        "sample": "CSF_21",
+        "dataset": "GSE133028",
+        "n_obs": 5903,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "f8ecf7a60b28"
+      },
+      {
+        "sample": "CSF_22",
+        "dataset": "GSE133028",
+        "n_obs": 996,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "e3e7e99fea20"
+      },
+      {
+        "sample": "CSF_24",
+        "dataset": "GSE133028",
+        "n_obs": 4125,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "dec62f91007b"
+      },
+      {
+        "sample": "CSF_25",
+        "dataset": "GSE133028",
+        "n_obs": 3333,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "6f0da0a2437d"
+      },
+      {
+        "sample": "CSF_27",
+        "dataset": "GSE133028",
+        "n_obs": 3713,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "876f4d8a43c7"
+      },
+      {
+        "sample": "CSF_28",
+        "dataset": "GSE133028",
+        "n_obs": 5781,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "dee7efbf1984"
+      },
+      {
+        "sample": "CSF_29",
+        "dataset": "GSE133028",
+        "n_obs": 5281,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "eb095716dc02"
+      },
+      {
+        "sample": "CSF_3",
+        "dataset": "GSE133028",
+        "n_obs": 2321,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "627478d21eb1"
+      },
+      {
+        "sample": "CSF_31",
+        "dataset": "GSE133028",
+        "n_obs": 5316,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "013ac6599bf6"
+      },
+      {
+        "sample": "CSF_32",
+        "dataset": "GSE133028",
+        "n_obs": 3973,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "675c6bf1d135"
+      },
+      {
+        "sample": "CSF_6",
+        "dataset": "GSE133028",
+        "n_obs": 4606,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "6d72e5ae5570"
+      },
+      {
+        "sample": "CSF_7",
+        "dataset": "GSE133028",
+        "n_obs": 2498,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "cc6b23449ffe"
+      },
+      {
+        "sample": "CSF_8",
+        "dataset": "GSE133028",
+        "n_obs": 5014,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "2ef1537e0d50"
+      },
+      {
+        "sample": "CSF_9",
+        "dataset": "GSE133028",
+        "n_obs": 3172,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "34cb2a4929fd"
+      },
+      {
+        "sample": "PB_10",
+        "dataset": "GSE133028",
+        "n_obs": 5756,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "d61f5bfc0ad1"
+      },
+      {
+        "sample": "PB_16",
+        "dataset": "GSE133028",
+        "n_obs": 10138,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "a2d79f1450b6"
+      },
+      {
+        "sample": "PB_2",
+        "dataset": "GSE133028",
+        "n_obs": 5196,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "2434a447bd26"
+      },
+      {
+        "sample": "PB_22",
+        "dataset": "GSE133028",
+        "n_obs": 6830,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "bf92a51a9cda"
+      },
+      {
+        "sample": "PB_24",
+        "dataset": "GSE133028",
+        "n_obs": 8807,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "123398ae454e"
+      },
+      {
+        "sample": "PB_25",
+        "dataset": "GSE133028",
+        "n_obs": 7027,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "b0c6e042e485"
+      },
+      {
+        "sample": "PB_27",
+        "dataset": "GSE133028",
+        "n_obs": 4669,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "8319ff77f861"
+      },
+      {
+        "sample": "PB_28",
+        "dataset": "GSE133028",
+        "n_obs": 6662,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "1c6e8a3ed178"
+      },
+      {
+        "sample": "PB_29",
+        "dataset": "GSE133028",
+        "n_obs": 6654,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "18bcfd9c922f"
+      },
+      {
+        "sample": "PB_3",
+        "dataset": "GSE133028",
+        "n_obs": 6726,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "3caa27dbdbc3"
+      },
+      {
+        "sample": "PB_31",
+        "dataset": "GSE133028",
+        "n_obs": 9369,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "87da8abd2236"
+      },
+      {
+        "sample": "PB_32",
+        "dataset": "GSE133028",
+        "n_obs": 5661,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "e8e7ad273339"
+      },
+      {
+        "sample": "PB_6",
+        "dataset": "GSE133028",
+        "n_obs": 10894,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "3d5e12e7812c"
+      },
+      {
+        "sample": "PB_7",
+        "dataset": "GSE133028",
+        "n_obs": 6904,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "40d359388ad2"
+      },
+      {
+        "sample": "PB_8",
+        "dataset": "GSE133028",
+        "n_obs": 6570,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "3bd47d9b4363"
+      },
+      {
+        "sample": "PB_9",
+        "dataset": "GSE133028",
+        "n_obs": 7917,
+        "n_vars": 38606,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "6ac61eb1169a"
+      },
+      {
+        "sample": "MS19270_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 4097,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "73c25f8b298a"
+      },
+      {
+        "sample": "MS19270_PB",
+        "dataset": "GSE138266",
+        "n_obs": 6089,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "dc6ac420a1b8"
+      },
+      {
+        "sample": "MS49131_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 1404,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "71d27ab28e7a"
+      },
+      {
+        "sample": "MS49131_PB",
+        "dataset": "GSE138266",
+        "n_obs": 5146,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "3f96c67f5795"
+      },
+      {
+        "sample": "MS58637_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 2425,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "2c7fc58c9bbb"
+      },
+      {
+        "sample": "MS60249_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 7494,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "5493fe203a56"
+      },
+      {
+        "sample": "MS60249_PB",
+        "dataset": "GSE138266",
+        "n_obs": 3226,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "309b41f0f1b2"
+      },
+      {
+        "sample": "MS71658_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 3004,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "c7870c6879a7"
+      },
+      {
+        "sample": "MS71658_PB",
+        "dataset": "GSE138266",
+        "n_obs": 3340,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "f9fc697449eb"
+      },
+      {
+        "sample": "MS74594_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 872,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "fcb0f35855f0"
+      },
+      {
+        "sample": "MS74594_PB",
+        "dataset": "GSE138266",
+        "n_obs": 7740,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "6f68cb8a021a"
+      },
+      {
+        "sample": "PST83775_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 1311,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "66162690a5f5"
+      },
+      {
+        "sample": "PST83775_PB",
+        "dataset": "GSE138266",
+        "n_obs": 3316,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "45d70f8f2d2c"
+      },
+      {
+        "sample": "PST95809_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 702,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "31fe14d853f7"
+      },
+      {
+        "sample": "PST95809_PB",
+        "dataset": "GSE138266",
+        "n_obs": 1733,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "8f7ba8d26b28"
+      },
+      {
+        "sample": "PTC32190_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 3493,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "ab809457a0ba"
+      },
+      {
+        "sample": "PTC32190_PB",
+        "dataset": "GSE138266",
+        "n_obs": 3895,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "e2cde54aae3f"
+      },
+      {
+        "sample": "PTC41540_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 1077,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "444e194b105c"
+      },
+      {
+        "sample": "PTC41540_PB",
+        "dataset": "GSE138266",
+        "n_obs": 5146,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "d181bef0a16f"
+      },
+      {
+        "sample": "PTC45044_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 8127,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "b33e314576d3"
+      },
+      {
+        "sample": "PTC85037_CSF",
+        "dataset": "GSE138266",
+        "n_obs": 1070,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "CSF",
+        "md5": "a01fb6bf6e18"
+      },
+      {
+        "sample": "PTC85037_PB",
+        "dataset": "GSE138266",
+        "n_obs": 1497,
+        "n_vars": 33694,
+        "names_ok": true,
+        "n_mt": 13,
+        "tissue": "PB",
+        "md5": "0ef004250a6e"
+      }
+    ]
+  },
   "steps": [
+    {
+      "step": "build",
+      "path": "run_all_zinc_analyses.py",
+      "status": "ok",
+      "seconds": 81.8,
+      "returncode": 0,
+      "log": "output/logs/01_build.log"
+    },
+    {
+      "step": "counts",
+      "path": "cell_numbers.py",
+      "status": "ok",
+      "seconds": 4.0,
+      "returncode": 0,
+      "log": "output/logs/02_counts.log"
+    },
+    {
+      "step": "qc_pipeline",
+      "path": "output/qc/qc_pipeline.py",
+      "status": "ok",
+      "seconds": 403.2,
+      "returncode": 0,
+      "log": "output/logs/03_qc_pipeline.log"
+    },
+    {
+      "step": "qc",
+      "path": "output/qc/qc.py",
+      "status": "ok",
+      "seconds": 8.2,
+      "returncode": 0,
+      "log": "output/logs/04_qc.log"
+    },
+    {
+      "step": "fig1",
+      "path": "output/figures/fig1_umap_overview/plot_figure1_umap_bar.py",
+      "status": "ok",
+      "seconds": 10.0,
+      "returncode": 0,
+      "log": "output/logs/05_fig1.log"
+    },
+    {
+      "step": "fig2",
+      "path": "output/figures/fig2_cxcr3_zinc/fig2.py",
+      "status": "ok",
+      "seconds": 6.0,
+      "returncode": 0,
+      "log": "output/logs/06_fig2.log"
+    },
+    {
+      "step": "fig3",
+      "path": "output/figures/fig3_csf_vs_pb/fig3.py",
+      "status": "ok",
+      "seconds": 4.6,
+      "returncode": 0,
+      "log": "output/logs/07_fig3.log"
+    },
     {
       "step": "fig4",
       "path": "output/figures/fig4_patient_level/Fig4.py",
       "status": "ok",
-      "seconds": 55.4,
+      "seconds": 43.4,
       "returncode": 0,
-      "log": "output/logs/01_fig4.log"
+      "log": "output/logs/08_fig4.log"
+    },
+    {
+      "step": "FigS3",
+      "path": "output/figures/supp/FigS3.py",
+      "status": "ok",
+      "seconds": 12.6,
+      "returncode": 0,
+      "log": "output/logs/09_FigS3.log"
+    },
+    {
+      "step": "FigS4-5",
+      "path": "output/figures/supp/FigS4-5.py",
+      "status": "ok",
+      "seconds": 25.8,
+      "returncode": 0,
+      "log": "output/logs/10_FigS4-5.log"
+    },
+    {
+      "step": "FigS6",
+      "path": "output/figures/supp/FigS6.py",
+      "status": "ok",
+      "seconds": 14.2,
+      "returncode": 0,
+      "log": "output/logs/11_FigS6.log"
+    },
+    {
+      "step": "FigS7",
+      "path": "output/figures/supp/FigS7.py",
+      "status": "ok",
+      "seconds": 6.8,
+      "returncode": 0,
+      "log": "output/logs/12_FigS7.log"
+    },
+    {
+      "step": "sexcheck",
+      "path": "sex_stratified_sensitivity_check.py",
+      "status": "ok",
+      "seconds": 3.2,
+      "returncode": 0,
+      "log": "output/logs/13_sexcheck.log"
+    },
+    {
+      "step": "zncheck",
+      "path": "checkZnExpression.py",
+      "status": "ok",
+      "seconds": 21.2,
+      "returncode": 0,
+      "log": "output/logs/14_zncheck.log"
     }
   ],
   "all_ok": true

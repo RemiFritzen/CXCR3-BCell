@@ -1,0 +1,189 @@
+# FigS4-5 (output/figures/supp/FigS4-5.py)
+# 2026-09-22T21:59:56.092676
+
+Checking PB/CSF subject-ID pairing (CXCR3+) …
+  [pairing check] 'patient' as-is: 0/54 distinct values have both PB and CSF cells
+  [pairing check] 'patient' does NOT pair across tissues as-is. After stripping tissue tokens: 26/28 derived subject IDs have both PB and CSF cells
+  [pairing check] 26/28 derived subject IDs have BOTH tissues -- 2 do NOT:
+    MS58637: only has CSF -- no matching sample in the other tissue
+    PTC45044: only has CSF -- no matching sample in the other tissue
+  If a subject above is unexpectedly missing a tissue (i.e. you believe both a PB and CSF sample exist for them), check the earlier console output from load_dataset (data_io.py) for a '[skip] <path> not found' message or a '0 cells retained' B-cell gate result for that subject/tissue -- a listed file that failed to load or yielded zero B cells will silently vanish from pairing without appearing as an error here.
+  [pairing check] full derived mapping (54 rows) -- VERIFY this looks correct:
+    original tissue derived_subject_id
+      CSF_10    CSF                 10
+       PB_10     PB                 10
+      CSF_16    CSF                 16
+       PB_16     PB                 16
+       CSF_2    CSF                  2
+        PB_2     PB                  2
+      CSF_22    CSF                 22
+       PB_22     PB                 22
+      CSF_24    CSF                 24
+       PB_24     PB                 24
+      CSF_25    CSF                 25
+       PB_25     PB                 25
+      CSF_27    CSF                 27
+       PB_27     PB                 27
+      CSF_28    CSF                 28
+       PB_28     PB                 28
+      CSF_29    CSF                 29
+       PB_29     PB                 29
+       CSF_3    CSF                  3
+        PB_3     PB                  3
+      CSF_31    CSF                 31
+       PB_31     PB                 31
+      CSF_32    CSF                 32
+       PB_32     PB                 32
+       CSF_6    CSF                  6
+        PB_6     PB                  6
+       CSF_7    CSF                  7
+        PB_7     PB                  7
+       CSF_8    CSF                  8
+        PB_8     PB                  8
+       CSF_9    CSF                  9
+        PB_9     PB                  9
+ MS19270_CSF    CSF            MS19270
+  MS19270_PB     PB            MS19270
+ MS49131_CSF    CSF            MS49131
+  MS49131_PB     PB            MS49131
+ MS58637_CSF    CSF            MS58637
+ MS60249_CSF    CSF            MS60249
+  MS60249_PB     PB            MS60249
+ MS71658_CSF    CSF            MS71658
+  MS71658_PB     PB            MS71658
+ MS74594_CSF    CSF            MS74594
+  MS74594_PB     PB            MS74594
+PST83775_CSF    CSF           PST83775
+ PST83775_PB     PB           PST83775
+ PST95809_PB     PB           PST95809
+PST95809_CSF    CSF           PST95809
+PTC32190_CSF    CSF           PTC32190
+ PTC32190_PB     PB           PTC32190
+PTC41540_CSF    CSF           PTC41540
+ PTC41540_PB     PB           PTC41540
+PTC45044_CSF    CSF           PTC45044
+PTC85037_CSF    CSF           PTC85037
+ PTC85037_PB     PB           PTC85037
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+
+Running paired DE: PB vs CSF CXCR3+, conditions=['MS'] …
+    MS: 18 subjects w/ PB, 19 w/ CSF, 18 with BOTH (4948 cells total)
+    min_pct=10%: 170/2014 genes retained (4 curated zinc/MT gene(s) kept despite low prevalence)
+ 170 genes in PB vs CSF DE table (MS)
+MS PB vs CSF bar genes (14/14 of curated panel): ['SLC39A10', 'MT1X', 'MT1E', 'MT1F', 'SLC30A1', 'SLC39A6', 'SLC39A4', 'SLC39A14', 'SLC30A9', 'SLC39A1', 'SLC39A11', 'SLC39A9', 'MT2A', 'SLC39A7']
+
+Running paired DE: PB vs CSF CXCR3+, conditions=['HC'] …
+    HC: 8 subjects w/ PB, 9 w/ CSF, 8 with BOTH (952 cells total)
+    min_pct=10%: 142/2014 genes retained (4 curated zinc/MT gene(s) kept despite low prevalence)
+ 142 genes in PB vs CSF DE table (HC)
+HC PB vs CSF bar genes (14/14 of curated panel): ['SLC39A4', 'SLC39A10', 'MT1X', 'SLC39A14', 'SLC30A9', 'SLC39A1', 'SLC30A1', 'SLC39A9', 'SLC39A6', 'MT1E', 'SLC39A11', 'MT1F', 'SLC39A7', 'MT2A']
+
+  === Dataset confounding check: PB vs CSF paired, HC, unsigned signature ===
+    [GSE133028] n=3 paired subjects: median(CSF-PB)=-0.054, Wilcoxon signed-rank p=0.5
+    [GSE138266] n=5 paired subjects: median(CSF-PB)=+0.004, Wilcoxon signed-rank p=0.812
+    [WARNING] Direction of the paired CSF-vs-PB difference is INCONSISTENT across datasets -- investigate before reporting the pooled paired test as dataset-independent.
+    Between-dataset comparison of (CSF-PB) differences: p=1 (not significant -- paired shift magnitude is consistent across datasets)
+
+  === Dataset confounding check: PB vs CSF paired, MS, unsigned signature ===
+    [GSE133028] n=13 paired subjects: median(CSF-PB)=+0.012, Wilcoxon signed-rank p=0.839
+    [GSE138266] n=5 paired subjects: median(CSF-PB)=+0.071, Wilcoxon signed-rank p=0.188
+    Direction is consistent across all testable datasets.
+    Between-dataset comparison of (CSF-PB) differences: p=0.387 (not significant -- paired shift magnitude is consistent across datasets)
+[HC] PAIRED PATIENT-LEVEL plot: n=8 subject pairs (each line = one patient's PB->CSF trajectory), Wilcoxon signed-rank p=4.609e-01
+[MS] PAIRED PATIENT-LEVEL plot: n=18 subject pairs (each line = one patient's PB->CSF trajectory), Wilcoxon signed-rank p=5.798e-01
+
+✓ Figure saved to /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/pb_vs_csf_paired/FigS4_CXCR3pos_PB_vs_CSF_6panel.png and /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/pb_vs_csf_paired/FigS4_CXCR3pos_PB_vs_CSF_6panel.pdf
+Checking PB/CSF subject-ID pairing …
+  [pairing check] 'patient' as-is: 0/54 distinct values have both PB and CSF cells
+  [pairing check] 'patient' does NOT pair across tissues as-is. After stripping tissue tokens: 26/28 derived subject IDs have both PB and CSF cells
+  [pairing check] 26/28 derived subject IDs have BOTH tissues -- 2 do NOT:
+    MS58637: only has CSF -- no matching sample in the other tissue
+    PTC45044: only has CSF -- no matching sample in the other tissue
+  If a subject above is unexpectedly missing a tissue (i.e. you believe both a PB and CSF sample exist for them), check the earlier console output from load_dataset (data_io.py) for a '[skip] <path> not found' message or a '0 cells retained' B-cell gate result for that subject/tissue -- a listed file that failed to load or yielded zero B cells will silently vanish from pairing without appearing as an error here.
+  [pairing check] full derived mapping (54 rows) -- VERIFY this looks correct:
+    original tissue derived_subject_id
+      CSF_10    CSF                 10
+       PB_10     PB                 10
+      CSF_16    CSF                 16
+       PB_16     PB                 16
+       CSF_2    CSF                  2
+        PB_2     PB                  2
+      CSF_22    CSF                 22
+       PB_22     PB                 22
+      CSF_24    CSF                 24
+       PB_24     PB                 24
+      CSF_25    CSF                 25
+       PB_25     PB                 25
+      CSF_27    CSF                 27
+       PB_27     PB                 27
+      CSF_28    CSF                 28
+       PB_28     PB                 28
+      CSF_29    CSF                 29
+       PB_29     PB                 29
+       CSF_3    CSF                  3
+        PB_3     PB                  3
+      CSF_31    CSF                 31
+       PB_31     PB                 31
+      CSF_32    CSF                 32
+       PB_32     PB                 32
+       CSF_6    CSF                  6
+        PB_6     PB                  6
+       CSF_7    CSF                  7
+        PB_7     PB                  7
+       CSF_8    CSF                  8
+        PB_8     PB                  8
+       CSF_9    CSF                  9
+        PB_9     PB                  9
+ MS19270_CSF    CSF            MS19270
+  MS19270_PB     PB            MS19270
+ MS49131_CSF    CSF            MS49131
+  MS49131_PB     PB            MS49131
+ MS58637_CSF    CSF            MS58637
+ MS60249_CSF    CSF            MS60249
+  MS60249_PB     PB            MS60249
+ MS71658_CSF    CSF            MS71658
+  MS71658_PB     PB            MS71658
+ MS74594_CSF    CSF            MS74594
+  MS74594_PB     PB            MS74594
+PST83775_CSF    CSF           PST83775
+ PST83775_PB     PB           PST83775
+ PST95809_PB     PB           PST95809
+PST95809_CSF    CSF           PST95809
+PTC32190_CSF    CSF           PTC32190
+ PTC32190_PB     PB           PTC32190
+PTC41540_CSF    CSF           PTC41540
+ PTC41540_PB     PB           PTC41540
+PTC45044_CSF    CSF           PTC45044
+PTC85037_CSF    CSF           PTC85037
+ PTC85037_PB     PB           PTC85037
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+
+Running paired DE: PB vs CSF CXCR3-, conditions=['MS'] …
+    MS: 18 subjects w/ PB, 19 w/ CSF, 18 with BOTH (27446 cells total)
+    min_pct=10%: 158/2014 genes retained (8 curated zinc/MT gene(s) kept despite low prevalence)
+ 158 genes in PB vs CSF DE table (MS)
+MS PB vs CSF bar genes (14/14 of curated panel): ['MT2A', 'MT1X', 'SLC39A10', 'MT1E', 'MT1F', 'SLC39A6', 'SLC30A1', 'SLC39A14', 'SLC39A4', 'SLC30A9', 'SLC39A1', 'SLC39A7', 'SLC39A9', 'SLC39A11']
+
+Running paired DE: PB vs CSF CXCR3-, conditions=['HC'] …
+    HC: 8 subjects w/ PB, 9 w/ CSF, 8 with BOTH (6853 cells total)
+    min_pct=10%: 112/2014 genes retained (10 curated zinc/MT gene(s) kept despite low prevalence)
+ 112 genes in PB vs CSF DE table (HC)
+HC PB vs CSF bar genes (14/14 of curated panel): ['MT1X', 'MT2A', 'MT1F', 'MT1E', 'SLC39A10', 'SLC39A6', 'SLC39A9', 'SLC39A14', 'SLC39A4', 'SLC39A7', 'SLC39A11', 'SLC30A1', 'SLC39A1', 'SLC30A9']
+
+  === Dataset confounding check: PB vs CSF paired, HC, unsigned signature ===
+    [GSE133028] n=3 paired subjects: median(CSF-PB)=+0.032, Wilcoxon signed-rank p=0.25
+    [GSE138266] n=5 paired subjects: median(CSF-PB)=+0.082, Wilcoxon signed-rank p=0.0625
+    Direction is consistent across all testable datasets.
+    Between-dataset comparison of (CSF-PB) differences: p=1 (not significant -- paired shift magnitude is consistent across datasets)
+
+  === Dataset confounding check: PB vs CSF paired, MS, unsigned signature ===
+    [GSE133028] n=13 paired subjects: median(CSF-PB)=+0.042, Wilcoxon signed-rank p=0.34
+    [GSE138266] n=5 paired subjects: median(CSF-PB)=+0.051, Wilcoxon signed-rank p=0.312
+    Direction is consistent across all testable datasets.
+    Between-dataset comparison of (CSF-PB) differences: p=0.849 (not significant -- paired shift magnitude is consistent across datasets)
+[HC] PAIRED PATIENT-LEVEL plot: n=8 subject pairs (each line = one patient's PB->CSF trajectory), Wilcoxon signed-rank p=7.812e-03
+[MS] PAIRED PATIENT-LEVEL plot: n=18 subject pairs (each line = one patient's PB->CSF trajectory), Wilcoxon signed-rank p=1.297e-01
+
+✓ Figure saved to /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/pb_vs_csf_paired/FigS5_CXCR3neg_PB_vs_CSF_6panel.png and /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/pb_vs_csf_paired/FigS5_CXCR3neg_PB_vs_CSF_6panel.pdf

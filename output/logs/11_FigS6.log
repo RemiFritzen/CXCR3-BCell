@@ -1,5 +1,5 @@
 # FigS6 (output/figures/supp/FigS6.py)
-# 2026-09-20T16:02:55.890774
+# 2026-09-22T22:00:21.893032
 
 Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
 Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
@@ -31,7 +31,7 @@ Signed vs unsigned signature p-values (sanity check):
     [GSE138266] n=5 paired patients: median(CXCR3+ - CXCR3-)=-0.026, Wilcoxon signed-rank p=0.438
     Direction is consistent across all testable datasets.
     Between-dataset comparison of (CXCR3+ - CXCR3-) differences: p=0.208 (not significant -- paired shift magnitude is consistent across datasets)
-[HC] PAIRED PATIENT-LEVEL plot: n=8 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=3.828e-01
-[MS] PAIRED PATIENT-LEVEL plot: n=18 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=4.005e-03
+[HC] PAIRED PATIENT-LEVEL plot: n=8 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=1.562e-02
+[MS] PAIRED PATIENT-LEVEL plot: n=18 patient pairs (each line = one patient's CXCR3- -> CXCR3+ trajectory), Wilcoxon signed-rank p=7.629e-06
 
 ✓ Figure saved to /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3_paired_pb/FigS6_CXCR3_PB_6panel.png and /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3_paired_pb/FigS6_CXCR3_PB_6panel.pdf

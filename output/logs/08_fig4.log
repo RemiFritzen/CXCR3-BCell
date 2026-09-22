@@ -1,5 +1,5 @@
 # fig4 (output/figures/fig4_patient_level/Fig4.py)
-# 2026-09-20T16:01:34.753760
+# 2026-09-22T21:59:00.155823
 
 CXCR3+ restriction: 5,900/40,199 cells retained (14.7%); 28/28 patients retained (a patient can be lost entirely if they have zero CXCR3+ B cells in a given tissue -- check EDSS/HC-vs-disease panels for reduced n).
 

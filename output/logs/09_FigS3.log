@@ -1,0 +1,79 @@
+# FigS3 (output/figures/supp/FigS3.py)
+# 2026-09-22T21:59:43.537245
+
+Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
+
+Running patient-level DE: PB CXCR3- MS vs HC …
+    min_pct=10%: 87/2014 genes retained (12 curated zinc/MT gene(s) kept despite low prevalence)
+    PB CXCR3- patients: 8 HC, 18 MS (27817 cells total)
+      HC CXCR3- cells/patient: median=794, min=215, max=1123 (n=8 patients)
+      MS CXCR3- cells/patient: median=1169, min=538, max=1980 (n=18 patients)
+  87 genes in PB DE table
+
+Running patient-level DE: CSF CXCR3- MS vs HC …
+    min_pct=15%: 39/2014 genes retained (13 curated zinc/MT gene(s) kept despite low prevalence)
+    CSF CXCR3- patients: 9 HC, 19 MS (6482 cells total)
+      HC CXCR3- cells/patient: median=88, min=38, max=419 (n=9 patients)
+      MS CXCR3- cells/patient: median=242, min=40, max=788 (n=19 patients)
+  39 genes in CSF DE table
+
+  === Dataset confounding check: PB, signed signature ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=+0.061, Mann-Whitney p=0.0821
+    [GSE138266] n=5 HC, 5 MS: median(MS-HC)=+0.054, Mann-Whitney p=0.0556
+    Direction is consistent across all testable datasets.
+    Interaction test (condition x dataset): p=0.511 (no significant interaction -- effect is consistent across datasets)
+
+  === Dataset confounding check: CSF, signed signature ===
+    [GSE133028] n=3 HC, 13 MS: median(MS-HC)=+0.145, Mann-Whitney p=0.00357
+    [GSE138266] n=6 HC, 6 MS: median(MS-HC)=+0.081, Mann-Whitney p=0.0411
+    Direction is consistent across all testable datasets.
+    Interaction test (condition x dataset): p=0.313 (no significant interaction -- effect is consistent across datasets)
+
+Signed vs unsigned signature p-values (sanity check -- both should point the same direction even if only one reaches significance):
+  PB : signed p=7.630e-03   unsigned p=4.699e-02
+  CSF: signed p=1.851e-04   unsigned p=4.606e-01
+PB bar genes  (14/14 of curated panel): ['SLC39A11', 'SLC30A9', 'SLC39A10', 'SLC39A9', 'SLC39A6', 'SLC39A1', 'SLC39A14', 'SLC39A4', 'SLC30A1', 'SLC39A7', 'MT1E', 'MT1F', 'MT2A', 'MT1X']
+CSF bar genes (14/14 of curated panel): ['SLC39A10', 'SLC30A9', 'SLC39A11', 'SLC39A9', 'SLC39A1', 'SLC39A6', 'SLC30A1', 'SLC39A14', 'SLC39A4', 'SLC39A7', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
+  [PB] zinc/MT genes significant: 4/14 (panel-restricted FDR, used for bar-chart stars) vs 0/14 (genome-wide FDR, used for volcano)
+  [PB] full per-gene table (verify star count against these numbers):
+    gene    log2FC   pvalue     padj  padj_zinc_panel
+SLC39A11  0.219749 0.013288 0.239256         0.046509
+ SLC30A9  0.131872 0.005121 0.148501         0.023897
+SLC39A10  0.122492 0.025905 0.239256         0.070367
+ SLC39A9  0.104650 0.002130 0.148501         0.023897
+ SLC39A6  0.033437 0.035183 0.255079         0.070367
+ SLC39A1  0.026479 0.260831 0.782493         0.405737
+SLC39A14  0.007635 0.004949 0.148501         0.023897
+ SLC39A4  0.007508 0.530782 0.887216         0.675541
+ SLC30A1  0.001749 0.806683 0.923439         0.941130
+ SLC39A7  0.000131 0.978310 1.000000         0.978310
+    MT1E -0.001756 0.978310 1.000000         0.978310
+    MT1F -0.016122 0.237857 0.766428         0.405737
+    MT2A -0.031701 0.495435 0.887216         0.675541
+    MT1X -0.050184 0.030251 0.239256         0.070367
+  [CSF] zinc/MT genes significant: 2/14 (panel-restricted FDR, used for bar-chart stars) vs 1/14 (genome-wide FDR, used for volcano)
+  [CSF] full per-gene table (verify star count against these numbers):
+    gene    log2FC   pvalue     padj  padj_zinc_panel
+SLC39A10  0.164142 0.034409 0.127674         0.060215
+ SLC30A9  0.140037 0.004324 0.084314         0.030266
+SLC39A11  0.124785 0.034310 0.127674         0.060215
+ SLC39A9  0.072078 0.013909 0.108493         0.060215
+ SLC39A1  0.037125 0.049105 0.127674         0.062498
+ SLC39A6  0.036683 0.018215 0.118400         0.060215
+ SLC30A1  0.019429 0.033036 0.127674         0.060215
+SLC39A14  0.008299 0.048664 0.127674         0.062498
+ SLC39A4  0.001146 0.844009 0.844009         0.844009
+ SLC39A7 -0.005621 0.403007 0.560613         0.470175
+    MT1E -0.028975 0.640223 0.693529         0.689471
+    MT1F -0.079609 0.023646 0.127674         0.060215
+    MT1X -0.222576 0.000478 0.018654         0.006696
+    MT2A -0.230970 0.049105 0.127674         0.062498
+[PB] PATIENT-LEVEL box plot: n=8 HC / 18 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=7.630e-03
+[CSF] PATIENT-LEVEL box plot: n=9 HC / 19 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=1.851e-04
+[PB] PATIENT-LEVEL box plot: n=8 HC / 18 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=4.699e-02
+[CSF] PATIENT-LEVEL box plot: n=9 HC / 19 MS patients (each dot = one patient's pseudobulk mean), Mann-Whitney p=4.606e-01
+
+Saved: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3neg_hc_vs_ms/FigS3_CXCR3neg_PB_CSF_MS_vs_HC_4panel.png
+Saved: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3neg_hc_vs_ms/FigS3_CXCR3neg_PB_CSF_MS_vs_HC_4panel.pdf
+Saved supplementary scatter plots and unsigned-signature comparison in: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/supp/cxcr3neg_hc_vs_ms/supp

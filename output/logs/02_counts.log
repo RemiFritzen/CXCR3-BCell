@@ -1,5 +1,5 @@
 # counts (cell_numbers.py)
-# 2026-09-20T15:54:25.143158
+# 2026-09-22T21:51:44.183357
 
 [info] merged object: 40199 cells x 2014 genes
 [info] obs columns: ['tissue', 'condition', 'dataset', 'patient', 'sex', 'patient_file', 'cxcr3_group', 'barcode', 'donor', 'gsm', 'sample', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'source_dataset']

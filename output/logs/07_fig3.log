@@ -1,5 +1,5 @@
 # fig3 (output/figures/fig3_csf_vs_pb/fig3.py)
-# 2026-09-20T16:01:29.790257
+# 2026-09-22T21:58:55.575442
 
 Checking PB/CSF subject-ID pairing …
   [pairing check] 'patient' as-is: 0/54 distinct values have both PB and CSF cells

@@ -64,8 +64,10 @@ STEPS = [
          note="Figure 3"),
     dict(key="fig4",        path="output/figures/fig4_patient_level/Fig4.py",
          note="Figure 4"),
-    dict(key="FigS4",       path="output/figures/supp/FigS4.py", note="Figure S4"),
-    dict(key="FigS5",       path="output/figures/supp/FigS5.py", note="Figure S5"),
+    dict(key="FigS3",       path="output/figures/supp/FigS3.py",
+         note="Supplementary Figure 3 (CXCR3- MS vs HC)"),
+    dict(key="FigS4-5",     path="output/figures/supp/FigS4-5.py",
+         note="Supplementary Figures 4 and 5 (PB vs CSF, CXCR3+ and CXCR3-)"),
     dict(key="FigS6",       path="output/figures/supp/FigS6.py", note="Figure S6"),
     dict(key="FigS7",       path="output/figures/supp/FigS7.py", note="Figure S7"),
     dict(key="sexcheck",    path="sex_stratified_sensitivity_check.py",
@@ -273,6 +275,7 @@ def run_step(step, root, log_dir, i, total) -> dict:
 # ---------------------------------------------------------------------------
 def main() -> int:
     root = repo_root()
+    
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--list", action="store_true")
@@ -286,12 +289,14 @@ def main() -> int:
     ap.add_argument("--include-optional", action="store_true")
     args = ap.parse_args()
 
+
     if args.list:
         print(f"repo root: {root}\n")
         for i, s in enumerate(STEPS, 1):
             tag = "  [optional]" if s.get("optional") else ""
             print(f"  {i:2d}. {s['key']:<12s} {s['path']}{tag}\n      {s['note']}")
         return 0
+
 
     keys = [s["key"].lower() for s in STEPS]
 
@@ -319,10 +324,16 @@ def main() -> int:
           f"{'  [UNCOMMITTED CHANGES]' if git['uncommitted_changes'] else ''}")
     print(f"python    : {pkgs['python']}  pandas {pkgs.get('pandas')}  "
           f"scanpy {pkgs.get('scanpy')}  anndata {pkgs.get('anndata')}\n")
+    
     if git["uncommitted_changes"]:
         print("[warn] working tree is dirty; the manifest will name a commit that is")
         print("       not exactly what ran. Commit first if you will cite this run.\n")
 
+    missing = [p for p in ("scanpy", "anndata", "pandas") if pkgs.get(p) == "not installed"]
+    if missing:
+        sys.exit(f"[fatal] {', '.join(missing)} not available to {sys.executable}. "
+                 f"Wrong interpreter?")
+        
     if args.dry_run:
         if not args.skip_checks:
             print("  would run stage 0 pre-flight checks")
@@ -361,7 +372,9 @@ def main() -> int:
                     total_seconds=round(total_s, 1), git=git, versions=pkgs,
                     command=" ".join(sys.argv), preflight=checks,
                     steps=results, all_ok=not failed)
-    mpath = os.path.join(root, "output", "run_manifest.json")
+    partial = bool(args.only or args.start or args.skip or args.skip_checks)
+    mpath = os.path.join(root, "output",
+                     "run_manifest_partial.json" if partial else "run_manifest.json")
     os.makedirs(os.path.dirname(mpath), exist_ok=True)
     with open(mpath, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)

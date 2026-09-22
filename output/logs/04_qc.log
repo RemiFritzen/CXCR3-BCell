@@ -1,5 +1,5 @@
 # qc (output/qc/qc.py)
-# 2026-09-20T16:01:05.159219
+# 2026-09-22T21:58:31.362266
 
 [qc] obs columns: ['tissue', 'condition', 'dataset', 'patient', 'sex', 'patient_file', 'cxcr3_group', 'barcode', 'donor', 'gsm', 'sample', 'n_genes_by_counts', 'total_counts', 'total_counts_mt', 'pct_counts_mt', 'source_dataset']
 [qc] n_genes_by_counts: min=202.0, max=5940.0, n_nonzero=11573, n_na=28626
