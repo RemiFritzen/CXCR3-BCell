@@ -778,6 +778,31 @@ def make_figS7_cxcr3_CSF() -> None:
     confound_ms = check_cxcr3_dataset_confounding(
         adata, zinc_genes=zinc_genes, group_label="MS", gene_signs=gene_signs
     )
+    # Same check on the unsigned composite, which is the primary score for
+    # the CXCR3+ vs CXCR3- comparison (see Methods); the signed check above
+    # is kept for the sign-corrected values reported alongside.
+    confound_hc_unsigned = check_cxcr3_dataset_confounding(
+        adata, zinc_genes=zinc_genes, group_label="HC", gene_signs=None
+    )
+    confound_ms_unsigned = check_cxcr3_dataset_confounding(
+        adata, zinc_genes=zinc_genes, group_label="MS", gene_signs=None
+    )
+    _rows = []
+    for _res in (confound_hc_unsigned, confound_ms_unsigned, confound_hc, confound_ms):
+        for _, _r in _res["per_dataset"].iterrows():
+            _rows.append({
+                "group": _res["group_label"],
+                "signature": _res["signature_label"],
+                "dataset": _r["dataset"],
+                "n_pairs": _r["n_pairs"],
+                "median_diff_CXCR3pos_minus_neg": _r["median_diff"],
+                "within_dataset_wilcoxon_p": _r["pvalue"],
+                "directions_agree": _res["directions_agree"],
+                "between_dataset_mannwhitney_p": _res["between_dataset_pvalue"],
+            })
+    pd.DataFrame(_rows).to_csv(
+        out_dir / f"FigS7_CXCR3_{TISSUE}_dataset_confounding_summary.csv", index=False
+    )
 
     # ===== CREATE THE 6-PANEL FIGURE =====
     fig, axes = plt.subplots(3, 2, figsize=(12, 14))
