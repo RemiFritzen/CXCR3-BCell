@@ -1,5 +1,5 @@
 # FigS6 (output/figures/supp/FigS6.py)
-# 2026-09-22T22:00:21.893032
+# 2026-10-07T19:32:09.455044
 
 Loaded 14 curated zinc/MT genes: ['SLC39A1', 'SLC39A4', 'SLC39A6', 'SLC39A7', 'SLC39A9', 'SLC39A10', 'SLC39A11', 'SLC39A14', 'SLC30A1', 'SLC30A9', 'MT1E', 'MT1F', 'MT1X', 'MT2A']
 Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}

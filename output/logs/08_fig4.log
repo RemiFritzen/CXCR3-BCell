@@ -1,13 +1,12 @@
 # fig4 (output/figures/fig4_patient_level/Fig4.py)
-# 2026-09-22T21:59:00.155823
+# 2026-10-07T19:29:54.276342
 
 CXCR3+ restriction: 5,900/40,199 cells retained (14.7%); 28/28 patients retained (a patient can be lost entirely if they have zero CXCR3+ B cells in a given tissue -- check EDSS/HC-vs-disease panels for reduced n).
 
 === Population: CXCR3+ B cells (CXCR3pos) -- 5,900 cells, 28 patients ===
 Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
   [patient_num check] 28 derived patient_num values in expression data, 31 patients in clinical metadata
-  [WARNING] 1 derived patient_num value(s) have NO match in clinical metadata -- these patients' cells will be silently dropped from EDSS/diagnosis merges (EDSS, Diagnosis, diagnosis_group all become NaN for them): ['PTC45044']
-  [note] 4 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26', 'PST45044']
+  [note] 3 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26']
   [patient_num check] derived mapping, by dataset (VERIFY this looks correct):
   dataset      patient patient_num
 GSE133028       CSF_10          10
@@ -68,7 +67,7 @@ Saved summary: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Pap
 Saved per-gene EDSS correlation table (BH-corrected across 28 gene x tissue tests): /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/supp/supp_gene_EDSS_correlations_all_genes_BHcorrected_CXCR3pos.csv
   1/28 gene x tissue correlations significant after correction (padj < 0.05)
   Figure 4 panels C/D will show: SLC39A7
-/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:349: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
   .infer_objects(copy=False)
   [signed] Fig4 panel p-values:
     Panel A: raw p=0.957, padj=0.957 (BH across 2 tests)
@@ -78,7 +77,7 @@ Saved per-gene EDSS correlation table (BH-corrected across 28 gene x tissue test
 Saved panel C/D data: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/Fig4CD_SLC39A7_vs_EDSS_patient_level_CXCR3pos.csv
 Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf.png
 Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/CXCR3pos/main/figure4_CXCR3pos_zinc_signature_EDSS_main_collapsed_pb_csf.pdf
-/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:349: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
   .infer_objects(copy=False)
   [unsigned] Fig4 panel p-values:
     Panel A: raw p=0.399, padj=0.428 (BH across 2 tests)
@@ -106,8 +105,7 @@ Saved gene PDF: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Pa
 === Population: All B cells (AllBcells) -- 40,199 cells, 28 patients ===
 Gene signs for composite signature: {'SLC39A1': 1.0, 'SLC39A4': 1.0, 'SLC39A6': 1.0, 'SLC39A7': 1.0, 'SLC39A9': 1.0, 'SLC39A10': 1.0, 'SLC39A11': 1.0, 'SLC39A14': 1.0, 'SLC30A1': 1.0, 'SLC30A9': 1.0, 'MT1E': -1.0, 'MT1F': -1.0, 'MT1X': -1.0, 'MT2A': -1.0}
   [patient_num check] 28 derived patient_num values in expression data, 31 patients in clinical metadata
-  [WARNING] 1 derived patient_num value(s) have NO match in clinical metadata -- these patients' cells will be silently dropped from EDSS/diagnosis merges (EDSS, Diagnosis, diagnosis_group all become NaN for them): ['PTC45044']
-  [note] 4 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26', 'PST45044']
+  [note] 3 clinical metadata patient(s) not found among derived patient_num values (expected if excluded/treated or simply absent from this h5ad): ['1', '18', '26']
   [patient_num check] derived mapping, by dataset (VERIFY this looks correct):
   dataset      patient patient_num
 GSE133028       CSF_10          10
@@ -168,14 +166,14 @@ Saved summary: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Pap
 Saved per-gene EDSS correlation table (BH-corrected across 28 gene x tissue tests): /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/supp/supp_gene_EDSS_correlations_all_genes_BHcorrected_AllBcells.csv
   0/28 gene x tissue correlations significant after correction (padj < 0.05)
   No gene cleared correction -- Figure 4 will be the 2-panel composite figure only.
-/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:349: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
   .infer_objects(copy=False)
   [signed] Fig4 panel p-values:
     Panel A: raw p=0.902, padj=0.902 (BH across 2 tests)
     Panel B: raw p=0.597, padj=0.902 (BH across 2 tests)
 Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/main/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf.png
 Saved main figure: /Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/AllBcells/main/figure4_AllBcells_zinc_signature_EDSS_main_collapsed_pb_csf.pdf
-/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:347: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
+/Users/remi/Library/Mobile Documents/com~apple~CloudDocs/Work/Papers/Research papers/2026 CXCR3/GitHub/CXCR3-BCell/output/figures/fig4_patient_level/Fig4.py:349: Pandas4Warning: The copy keyword is deprecated and will be removed in a future version. Copy-on-Write is active in pandas since 3.0 which utilizes a lazy copy mechanism that defers copies until necessary. Use .copy() to make an eager copy if necessary.
   .infer_objects(copy=False)
   [unsigned] Fig4 panel p-values:
     Panel A: raw p=0.373, padj=0.373 (BH across 2 tests)
