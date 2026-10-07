@@ -1,11 +1,11 @@
 {
-  "started_utc": "2026-10-07T18:20:41.746106+00:00",
-  "finished_utc": "2026-10-07T18:32:53.520606+00:00",
-  "total_seconds": 731.8,
+  "started_utc": "2026-10-07T20:50:27.911216+00:00",
+  "finished_utc": "2026-10-07T21:03:11.286078+00:00",
+  "total_seconds": 763.4,
   "git": {
-    "commit": "2137a4441cba5081057c969def5ac63a30350f36",
+    "commit": "585f19c62d40609cf1160f76273c94ab882bc5a7",
     "branch": "main",
-    "describe": "corrigendum-v1-3-g2137a44",
+    "describe": "corrigendum-v2-1-g585f19c",
     "uncommitted_changes": false
   },
   "versions": {
@@ -595,7 +595,7 @@
       "step": "build",
       "path": "run_all_zinc_analyses.py",
       "status": "ok",
-      "seconds": 91.2,
+      "seconds": 99.0,
       "returncode": 0,
       "log": "output/logs/01_build.log"
     },
@@ -603,7 +603,7 @@
       "step": "counts",
       "path": "cell_numbers.py",
       "status": "ok",
-      "seconds": 4.1,
+      "seconds": 4.2,
       "returncode": 0,
       "log": "output/logs/02_counts.log"
     },
@@ -611,7 +611,7 @@
       "step": "qc_pipeline",
       "path": "output/qc/qc_pipeline.py",
       "status": "ok",
-      "seconds": 427.1,
+      "seconds": 435.2,
       "returncode": 0,
       "log": "output/logs/03_qc_pipeline.log"
     },
@@ -619,7 +619,7 @@
       "step": "qc",
       "path": "output/qc/qc.py",
       "status": "ok",
-      "seconds": 8.9,
+      "seconds": 10.7,
       "returncode": 0,
       "log": "output/logs/04_qc.log"
     },
@@ -627,7 +627,7 @@
       "step": "fig1",
       "path": "output/figures/fig1_umap_overview/plot_figure1_umap_bar.py",
       "status": "ok",
-      "seconds": 10.4,
+      "seconds": 12.5,
       "returncode": 0,
       "log": "output/logs/05_fig1.log"
     },
@@ -635,7 +635,7 @@
       "step": "fig2",
       "path": "output/figures/fig2_cxcr3_zinc/fig2.py",
       "status": "ok",
-      "seconds": 6.0,
+      "seconds": 8.1,
       "returncode": 0,
       "log": "output/logs/06_fig2.log"
     },
@@ -643,7 +643,7 @@
       "step": "fig3",
       "path": "output/figures/fig3_csf_vs_pb/fig3.py",
       "status": "ok",
-      "seconds": 4.7,
+      "seconds": 6.8,
       "returncode": 0,
       "log": "output/logs/07_fig3.log"
     },
@@ -651,7 +651,7 @@
       "step": "fig4",
       "path": "output/figures/fig4_patient_level/Fig4.py",
       "status": "ok",
-      "seconds": 94.5,
+      "seconds": 84.4,
       "returncode": 0,
       "log": "output/logs/08_fig4.log"
     },
@@ -659,7 +659,7 @@
       "step": "FigS3",
       "path": "output/figures/supp/FigS3.py",
       "status": "ok",
-      "seconds": 15.0,
+      "seconds": 18.6,
       "returncode": 0,
       "log": "output/logs/09_FigS3.log"
     },
@@ -667,7 +667,7 @@
       "step": "FigS4-5",
       "path": "output/figures/supp/FigS4-5.py",
       "status": "ok",
-      "seconds": 25.7,
+      "seconds": 28.7,
       "returncode": 0,
       "log": "output/logs/10_FigS4-5.log"
     },
@@ -675,7 +675,7 @@
       "step": "FigS6",
       "path": "output/figures/supp/FigS6.py",
       "status": "ok",
-      "seconds": 14.2,
+      "seconds": 20.3,
       "returncode": 0,
       "log": "output/logs/11_FigS6.log"
     },
@@ -683,7 +683,7 @@
       "step": "FigS7",
       "path": "output/figures/supp/FigS7.py",
       "status": "ok",
-      "seconds": 6.4,
+      "seconds": 8.0,
       "returncode": 0,
       "log": "output/logs/12_FigS7.log"
     },
@@ -691,7 +691,7 @@
       "step": "sexcheck",
       "path": "sex_stratified_sensitivity_check.py",
       "status": "ok",
-      "seconds": 3.3,
+      "seconds": 3.9,
       "returncode": 0,
       "log": "output/logs/13_sexcheck.log"
     },
@@ -699,7 +699,7 @@
       "step": "zncheck",
       "path": "checkZnExpression.py",
       "status": "ok",
-      "seconds": 20.1,
+      "seconds": 22.9,
       "returncode": 0,
       "log": "output/logs/14_zncheck.log"
     }
