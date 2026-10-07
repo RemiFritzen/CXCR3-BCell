@@ -3,3 +3,4 @@ data/
 .DS_Store
 __pycache__/
 !data/10xToh5ad.py
+.spyproject/
