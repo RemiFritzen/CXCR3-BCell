@@ -110,7 +110,7 @@ def load_clinical_metadata() -> pd.DataFrame:
 
       * MS58637 (MS, m, 22, EDSS 0.0) was ABSENT from this table entirely
         and was therefore dropped from every panel. Added.
-      * "MS45044" -> PST45044. The source lists 45044 as `co` (control),
+      * "MS45044" -> PTC45044. The source lists 45044 as `co` (control),
         female, 25 -- not RRMS with EDSS 1.0. Diagnosis corrected to HC and
         the spurious EDSS removed; this also makes the ID match the h5ad.
       * MS60249 sex M -> F, and EDSS 0.0 -> 1.0.
@@ -121,8 +121,10 @@ def load_clinical_metadata() -> pd.DataFrame:
         if the follow-up scale is wanted instead, take `EDSS @FU` for ALL
         patients rather than mixing the two, and say which in the legend.
 
-    GSE133028 rows are unverified against a primary source; they were not
-    touched here.
+    GSE133028 rows were checked against Ramesh et al. 2020 (PNAS), Dataset
+    S1A: age, sex, EDSS, treatment and months from onset match for every
+    subject. Subjects 22 and 31 are CIS in the source; they are deliberately
+    pooled with MS here because GSE138266 does not distinguish CIS from MS.
     """
     rows = [
         ["1", 43, "F", "RRMS", 0, np.nan, "Untreated", 16],
@@ -152,7 +154,7 @@ def load_clinical_metadata() -> pd.DataFrame:
         # Corrected against GSE138266_patient_list.xlsx (Schafflick et al.
         # Table 1, `cohort == "scRNA-seq"`). See the notes above the function
         # for what each of these used to say.
-        ["PST45044", 25, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
+        ["PTC45044", 25, "F", "HC", np.nan, np.nan, "Untreated", np.nan],
         ["MS60249", 28, "F", "RRMS", 1.0, np.nan, "Untreated", np.nan],
         ["MS58637", 22, "M", "RRMS", 0.0, 6.0, "Untreated", np.nan],
         ["MS74594", 42, "M", "RRMS", 0.0, np.nan, "Untreated", np.nan],
